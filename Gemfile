@@ -23,8 +23,15 @@ gem 'jquery-rails'
 
 group :development do
   gem 'rspec-rails', '~> 2.6'
+  gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
+  gem 'guard'
+  gem 'guard-annotate'
+  gem 'guard-rspec'
+  gem 'ruby_gntp'
 end
 
 group :test do
   gem 'rspec-rails', '~> 2.6'
 end
+
+gem 'sorcery'
