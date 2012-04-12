@@ -1,0 +1,35 @@
+# Ignores for Rails
+*.rbc
+*.sassc
+.sass-cache
+capybara-*.html
+.rspec
+/.bundle
+/vendor/bundle
+/log/*
+/tmp/*
+/db/*.sqlite3
+/public/system/*
+/coverage/
+/spec/tmp/*
+**.orig
+rerun.txt
+pickle-email-*.html
+
+# Ignore for Compass
+.sass-cache
+
+# Ignores for OS X
+.DS_Store
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Ignores for Vim
+.*.sw[a-z]
+*.un~
+Session.vim
