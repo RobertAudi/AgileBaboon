@@ -20,7 +20,7 @@ class Client < ActiveRecord::Base
 
   validates :contact_name, :presence => true,
                            :length => { :maximum => 255 },
-                           :format => { :with => /^(?:[a-z0-9-]+) (?:[a-z-0-9-]+)$/i }
+                           :format => { :with => /^(?:[a-z0-9-]+) (?:[a-z0-9-]+)$/i }
 
   validates :contact_email, :presence => true,
                             :length => { :within => 8..255 },
