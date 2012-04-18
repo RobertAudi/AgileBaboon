@@ -1,0 +1,2 @@
+module Kong::BaseHelper
+end

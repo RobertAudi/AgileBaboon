@@ -22,7 +22,7 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 group :development do
-  gem 'rspec-rails', '~> 2.6'
+  gem 'rspec-rails'
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'guard'
   gem 'guard-annotate'
@@ -33,7 +33,10 @@ group :development do
 end
 
 group :test do
-  gem 'rspec-rails', '~> 2.6'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'capybara'
 end
 
-gem 'sorcery'
+gem 'kaminari'
