@@ -28,6 +28,8 @@ group :development do
   gem 'guard-annotate'
   gem 'guard-rspec'
   gem 'ruby_gntp'
+  gem 'quiet_assets'
+  gem 'thin'
 end
 
 group :test do
