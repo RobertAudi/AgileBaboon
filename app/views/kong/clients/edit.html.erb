@@ -1,2 +1,3 @@
-<h1>Kong::Clients#edit</h1>
-<p>Find me in app/views/kong/clients/edit.html.erb</p>
+<%= simple_form_for @client, :url => kong_client_path do |f| %>
+  <%= render 'form', :f => f, :client => @client %>
+<% end %>

@@ -1,2 +1,13 @@
-<h1>Kong::Clients#show</h1>
-<p>Find me in app/views/kong/clients/show.html.erb</p>
+<section>
+  <header>
+    <h1><%= @client.account_name %></h1>
+  </header>
+
+  <section class="main">
+    <ul>
+      <li><strong>Account name:</strong> <%= @client.account_name %></li>
+      <li><strong>Contact name:</strong> <%= @client.contact_name %></li>
+      <li><strong>Contact email:</strong> <%= @client.contact_email %></li>
+    </ul>
+  </section>
+</section>
