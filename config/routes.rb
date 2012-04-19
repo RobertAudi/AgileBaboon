@@ -4,6 +4,9 @@ AgileBaboon::Application.routes.draw do
     scope :module => "kong", :as => "kong" do
       # Clients
       resources :clients
+
+      # Root path
+      root :to => "clients#index"
     end
   end
 end

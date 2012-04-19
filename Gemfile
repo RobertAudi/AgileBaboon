@@ -40,3 +40,5 @@ group :test do
 end
 
 gem 'kaminari'
+
+gem 'simple_form'

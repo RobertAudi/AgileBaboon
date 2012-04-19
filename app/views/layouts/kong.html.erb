@@ -2,9 +2,31 @@
 <html lang="en">
   <head>
     <title>Kong</title>
+
+    <!-- Stylesheets -->
+    <%= stylesheet_link_tag    "kong/base", :media => "all" %>
+    <%= stylesheet_link_tag    params[:controller], :media => "all" %>
+
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= yield %>
+    <header>
+      <section id="header-top">
+        <section id="logo"><%= image_tag "logo.png" %></section>
+      </section>
+      <section id="header-bottom">
+      <nav>
+        <ul>
+          <li><%= link_to "Home", kong_root_path %></li>
+          <li><%= link_to "Clients", kong_clients_path %></li>
+        </ul>
+      </nav>
+      </section>
+    </header>
+
+    <div id="page-wrap">
+      <%= yield %>
+    </div>
+
   </body>
 </html>

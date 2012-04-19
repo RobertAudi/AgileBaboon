@@ -4,7 +4,7 @@
     <th>Contact name</th>
     <th>Contact email</th>
   </tr>
-  <%= @clients.each do |client| %>
+  <% @clients.each do |client| %>
     <tr>
       <td><%= client.account_name %></td>
       <td><%= client.contact_name %></td>

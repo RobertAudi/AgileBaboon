@@ -1,0 +1,6 @@
+<%= simple_form_for @client, :url => kong_clients_path do |f| %>
+  <%= f.input :account_name  %>
+  <%= f.input :contact_name  %>
+  <%= f.input :contact_email %>
+  <%= f.button :submit %>
+<% end %>
