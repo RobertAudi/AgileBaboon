@@ -30,6 +30,7 @@ group :development do
   gem 'ruby_gntp'
   gem 'quiet_assets'
   gem 'thin'
+  gem 'pry'
 end
 
 group :test do
