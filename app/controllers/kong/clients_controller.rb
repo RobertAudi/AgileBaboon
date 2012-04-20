@@ -27,7 +27,7 @@ class Kong::ClientsController < Kong::BaseController
 
   def update
     @client = Client.find(params[:id])
-    if params[:client][:account_name].present?
+    if params[:client][:account_name].present? && params[:client][:account_name] != @client.account_name
       # The account name is immutable
       flash.now[:error] = "The account name cannot be changed"
       render :edit

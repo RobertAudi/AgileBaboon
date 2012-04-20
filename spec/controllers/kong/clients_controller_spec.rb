@@ -212,7 +212,8 @@ describe Kong::ClientsController do
     context "with valid attributes" do
       it "should change the contact's attributes" do
         put :update, :id => client,
-                     :client => attributes_for(:client, :contact_name  => "Captain Awesome",
+                     :client => attributes_for(:client, :account_name => client.account_name,
+                                                        :contact_name  => "Captain Awesome",
                                                         :contact_email => "awesome@example.com")
         client.reload
         client.contact_name.should == "Captain Awesome"
@@ -220,12 +221,12 @@ describe Kong::ClientsController do
       end
 
       it "should redirect the user to the clients index page" do
-        put :update, :id => client, :client => attributes_for(:client)
+        put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
         response.should redirect_to kong_clients_url
       end
 
       it "should display a confirmation message" do
-        put :update, :id => client, :client => attributes_for(:client)
+        put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
         flash[:success].should =~ /Client updated successfully/
       end
     end
