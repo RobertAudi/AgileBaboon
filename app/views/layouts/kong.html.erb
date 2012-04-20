@@ -18,7 +18,11 @@
       <nav>
         <ul>
           <li><%= link_to "Home", kong_root_path %></li>
-          <li><%= link_to "Clients", kong_clients_path %></li>
+          <li><%= link_to "Clients", kong_clients_path %>
+            <ul>
+              <li><%= link_to "New client", new_kong_client_path %></li>
+            </ul>
+          </li>
         </ul>
       </nav>
       </section>
