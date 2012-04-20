@@ -232,11 +232,23 @@ describe Kong::ClientsController do
     end
   end
 
-  describe "GET 'delete'" do
-    it "returns http success" do
-      get :delete
-      response.should be_success
+  describe "DELETE 'destroy'" do
+    let!(:client) { create(:client) }
+
+    it "should delete a client" do
+      expect {
+        delete :destroy, :id => client
+      }.to change(Client, :count).by(-1)
+    end
+
+    it "should redirect the user to the clients page" do
+      delete :destroy, :id => client
+      response.should redirect_to(kong_clients_url)
+    end
+
+    it "should show the user a nice confirmation message" do
+      delete :destroy, :id => client
+      flash[:success].should =~ /Client deleted successfully/
     end
   end
-
 end

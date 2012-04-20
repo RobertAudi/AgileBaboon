@@ -39,6 +39,14 @@ class Kong::ClientsController < Kong::BaseController
     end
   end
 
-  def delete
+  def destroy
+    client = Client.find(params[:id])
+    if client.destroy
+      flash[:success] = "Client deleted successfully"
+      redirect_to kong_clients_url
+    else
+      flash[:error] = "Client not deleted for some reason"
+      redirect_to kong_clients_url
+    end
   end
 end
