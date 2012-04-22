@@ -75,7 +75,7 @@ describe Kong::UsersController do
     end
 
     it "should create a new user instance and put it in an instance variable" do
-      post :create, :user => attr
+      post :create, :kong_user => attr
       user = assigns(:user)
       user.should be_an_instance_of Kong::User
       user.username.should == attr[:username]
@@ -87,7 +87,7 @@ describe Kong::UsersController do
     context "with invalid attributes" do
       context "templates" do
         before(:each) do
-          post :create, :user => attr
+          post :create, :kong_user => attr
         end
 
         it_behaves_like "a Kong controller"
@@ -99,25 +99,25 @@ describe Kong::UsersController do
 
       it "should not create a new user" do
         expect {
-          post :create, :user => attr
+          post :create, :kong_user => attr
         }.to_not change(Kong::User, :count)
       end
     end
 
     context "with valid attributes" do
       it "should display a confirmation message (flash)" do
-        post :create, :user => attributes_for(:user)
+        post :create, :kong_user => attributes_for(:user)
         flash[:success].should =~ /User created successfully/
       end
 
       it "should redirect to the users index page" do
-        post :create, :user => attributes_for(:user)
+        post :create, :kong_user => attributes_for(:user)
         response.should redirect_to(kong_users_url)
       end
 
       it "should create a new user" do
         expect {
-          post :create, :user => attributes_for(:user)
+          post :create, :kong_user => attributes_for(:user)
         }.to change(Kong::User, :count).by(1)
       end
     end
@@ -143,14 +143,14 @@ describe Kong::UsersController do
     let(:user) { create(:user) }
 
     it "should fetch the correct user" do
-      put :update, :id => user, :user => attributes_for(:user)
+      put :update, :id => user, :kong_user => attributes_for(:user)
       assigns(:user).should == user
     end
 
     context "with invalid attributes" do
       context "templates" do
         before(:each) do
-          put :update, :id => user, :user => attributes_for(:user, :username => nil)
+          put :update, :id => user, :kong_user => attributes_for(:user, :username => nil)
         end
 
         it_behaves_like "a Kong controller"
@@ -161,12 +161,12 @@ describe Kong::UsersController do
       end
 
       it "returns http success" do
-        put :update, :id => user, :user => attributes_for(:user, :username => nil)
+        put :update, :id => user, :kong_user => attributes_for(:user, :username => nil)
         response.should be_success
       end
 
       it "should not update the user attributes" do
-        put :update, :id => user, :user => attributes_for(:user, :username => "user",
+        put :update, :id => user, :kong_user => attributes_for(:user, :username => "user",
                                                                  :email => nil)
 
         user.reload
@@ -177,7 +177,7 @@ describe Kong::UsersController do
 
     context "with valid attributes" do
       it "should change the user's attributes" do
-        put :update, :id => user, :user => attributes_for(:user, :username => "user",
+        put :update, :id => user, :kong_user => attributes_for(:user, :username => "user",
                                                                  :email => "user@example.com")
 
         user.reload
@@ -186,12 +186,12 @@ describe Kong::UsersController do
       end
 
       it "should show a confirmation message" do
-        put :update, :id => user, :user => attributes_for(:user)
+        put :update, :id => user, :kong_user => attributes_for(:user)
         flash[:success].should =~ /User updated successfully/
       end
 
       it "should redirect the user to the users index page" do
-        put :update, :id => user, :user => attributes_for(:user)
+        put :update, :id => user, :kong_user => attributes_for(:user)
         response.should redirect_to(kong_users_url)
       end
     end
