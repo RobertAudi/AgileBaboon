@@ -120,6 +120,8 @@ GEM
       activesupport (= 3.2.3)
       bundler (~> 1.0)
       railties (= 3.2.3)
+    rails-footnotes (3.7.8)
+      rails (>= 3.0.0)
     railties (3.2.3)
       actionpack (= 3.2.3)
       activesupport (= 3.2.3)
@@ -199,6 +201,7 @@ DEPENDENCIES
   pry
   quiet_assets
   rails (= 3.2.3)
+  rails-footnotes (>= 3.7.5.rc4)
   rspec-rails
   ruby_gntp
   sass-rails (~> 3.2.3)

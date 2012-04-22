@@ -32,6 +32,7 @@ group :development do
   gem 'thin'
   gem 'pry'
   gem 'faker'
+  gem 'rails-footnotes', '>= 3.7.5.rc4'
 end
 
 group :test do
