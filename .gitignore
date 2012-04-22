@@ -36,3 +36,6 @@ Session.vim
 
 # Ignore for RVM
 .rvmrc*
+
+# Ignore NERD_Tree files
+NERD_tree*
