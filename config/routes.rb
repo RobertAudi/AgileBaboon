@@ -5,6 +5,9 @@ AgileBaboon::Application.routes.draw do
       # Clients
       resources :clients
 
+      # Users
+      resources :users
+
       # Root path
       root :to => "clients#index"
     end

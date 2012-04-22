@@ -5,4 +5,11 @@ FactoryGirl.define do
     sequence(:contact_name)  { |n| "Captain Awesome#{n}" }
     sequence(:contact_email) { |n| "awesome#{n}@example.com" }
   end
+
+  factory :user, :class => Kong::User do
+    sequence(:username)              { |n| "user#{n}" }
+    sequence(:email)                 { |n| "user#{n}@example.com" }
+    sequence(:password)              { |n| "password" }
+    sequence(:password_confirmation) { |n| "password" }
+  end
 end
