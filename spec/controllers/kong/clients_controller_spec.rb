@@ -7,14 +7,6 @@ describe Kong::ClientsController do
     @request.host = "kong.lhv.me"
   end
 
-  shared_examples_for "a Kong controller" do
-    context "the layout" do
-      it "should render the kong layout" do
-        response.should render_template('layouts/kong')
-      end
-    end
-  end
-
   it "should inherit from Kong::BaseController" do
     Kong::ClientsController.superclass.should == Kong::BaseController
   end
@@ -74,6 +66,8 @@ describe Kong::ClientsController do
     before(:each) do
       get :new
     end
+
+    it_behaves_like "a Kong controller"
 
     it "returns http success" do
       response.should be_success
