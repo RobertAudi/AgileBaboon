@@ -43,3 +43,5 @@ end
 gem 'kaminari'
 
 gem 'simple_form'
+
+gem 'bcrypt-ruby', :require => 'bcrypt'

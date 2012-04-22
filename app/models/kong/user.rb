@@ -1,5 +1,6 @@
 class Kong::User < ActiveRecord::Base
-  attr_accessor :password
+  has_secure_password
+
   attr_accessible :email, :password, :password_confirmation, :username
 
   validates :username, :presence => true,
