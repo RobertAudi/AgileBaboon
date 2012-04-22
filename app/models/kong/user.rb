@@ -13,9 +13,9 @@ class Kong::User < ActiveRecord::Base
                     :length => { :within => 8..255 },
                     :format => { :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i }
 
-  validates :password, :presence => true, :on => :create,
+  validates :password, :presence => true,
                        :confirmation => true,
                        :length => { :within => 4..255 }
 
-  validates :password_confirmation, :presence => true, :on => :create
+  validates :password_confirmation, :presence => true
 end
