@@ -8,6 +8,11 @@ AgileBaboon::Application.routes.draw do
       # Users
       resources :users
 
+      # Sessions
+      resources :sessions
+      get "/login" => "sessions#new", :as => "login"
+      delete "/logout" => "sessions#destroy", :as => "logout"
+
       # Root path
       root :to => "clients#index"
     end

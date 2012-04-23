@@ -1,0 +1,2 @@
+module Kong::SessionsHelper
+end
