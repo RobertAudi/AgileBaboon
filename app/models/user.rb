@@ -13,6 +13,8 @@
 class User < ActiveRecord::Base
   has_secure_password
 
+  ats_as_tenant(:client)
+
   attr_accessible :email, :password, :password_confirmation, :username
 
   validates :username, :presence => true,
