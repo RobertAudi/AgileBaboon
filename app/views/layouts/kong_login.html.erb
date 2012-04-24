@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Kong</title>
+
+    <!-- Stylesheets -->
+    <%= stylesheet_link_tag    "kong/sessions", :media => "all" %>
+
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div id="login-box">
+      <% flash.each do |key, value| %>
+        <div class="notification <%= key %>">
+          <span class="strong"><%= key.capitalize %>:</span>
+          <%= value %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </div>
+  </body>
+</html>
