@@ -16,65 +16,91 @@ describe Kong::ClientsController do
       42.times do
         create(:client)
       end
+    end
 
+    it "should restrict access to signed in users" do
       get :index
+      response.should redirect_to kong_login_url
     end
 
-    it_behaves_like "a Kong controller"
-
-    it "returns http success" do
-      response.should be_success
-    end
-
-    it "should fetch all clients from page 1" do
-      assigns(:clients).should == Client.page(1).per(10)
-    end
-
-    it "should have a table row for each client" do
-      Client.page(1).per(10).each do |client|
-        response.body.should have_selector('tr > td', :text => client.account_name)
-        response.body.should have_selector('tr > td', :text => client.contact_name)
-        response.body.should have_selector('tr > td', :text => client.contact_email)
+    context "for authenticated users" do
+      before(:each) do
+        controller.log_in(create(:user))
+        get :index
       end
-    end
 
-    it "should paginate the clients table" do
-      response.body.should have_selector('.pagination')
-      response.body.should have_selector('.pagination .page')
+      it_behaves_like "a Kong controller"
+
+      it "returns http success" do
+        response.should be_success
+      end
+
+      it "should fetch all clients from page 1" do
+        assigns(:clients).should == Client.page(1).per(10)
+      end
+
+      it "should have a table row for each client" do
+        Client.page(1).per(10).each do |client|
+          response.body.should have_selector('tr > td', :text => client.account_name)
+          response.body.should have_selector('tr > td', :text => client.contact_name)
+          response.body.should have_selector('tr > td', :text => client.contact_email)
+        end
+      end
+
+      it "should paginate the clients table" do
+        response.body.should have_selector('.pagination')
+        response.body.should have_selector('.pagination .page')
+      end
     end
   end
 
   describe "GET 'show'" do
     let (:client) { create(:client) }
 
-    before(:each) do
+    it "should restrict access to signed in users" do
       get :show, :id => client.id
+      response.should redirect_to kong_login_url
     end
 
-    it_behaves_like "a Kong controller"
+    context "for authenticated users" do
+      before(:each) do
+        controller.log_in(create(:user))
+        get :show, :id => client.id
+      end
 
-    it "returns http success" do
-      response.should be_success
-    end
+      it_behaves_like "a Kong controller"
 
-    it "should fetch the correct client" do
-      assigns(:client).should == client
+      it "returns http success" do
+        response.should be_success
+      end
+
+      it "should fetch the correct client" do
+        assigns(:client).should == client
+      end
     end
   end
 
   describe "GET 'new'" do
-    before(:each) do
+    it "should restrict access to signed in users" do
       get :new
+      response.should redirect_to kong_login_url
     end
 
-    it_behaves_like "a Kong controller"
+    context "for authenticated users" do
+      before(:each) do
+        controller.log_in(create(:user))
+        get :new
+      end
 
-    it "returns http success" do
-      response.should be_success
-    end
+      it_behaves_like "a Kong controller"
 
-    it "should create a new client instance and put it in an instance variable" do
-      assigns(:client).should be_an_instance_of Client
+      it "returns http success" do
+        response.should be_success
+      end
+
+      it "should create a new client instance and put it in an instance variable" do
+        assigns(:client).should be_an_instance_of Client
+      end
     end
   end
 
@@ -87,55 +113,66 @@ describe Kong::ClientsController do
       }
     end
 
-    it "returns http success" do
+    it "should restrict access to signed in users" do
       post :create, :client => attr
-      response.should be_success
+      response.should redirect_to kong_login_url
     end
 
-    it "should create a new client instace and put it in an instance variable" do
-      post :create, :client => attr
-      client = assigns(:client)
-      client.should be_an_instance_of Client
-      client.contact_name.should  == attr[:contact_name]
-      client.account_name.should  == attr[:account_name]
-      client.contact_email.should == attr[:contact_email]
-    end
+    context "for authenticated users" do
+      before(:each) do
+        controller.log_in(create(:user))
+      end
 
-    context "with invalid attributes" do
-      context "templates" do
-        before(:each) do
-          post :create, :client => attr
+      it "returns http success" do
+        post :create, :client => attr
+        response.should be_success
+      end
+
+      it "should create a new client instace and put it in an instance variable" do
+        post :create, :client => attr
+        client = assigns(:client)
+        client.should be_an_instance_of Client
+        client.contact_name.should  == attr[:contact_name]
+        client.account_name.should  == attr[:account_name]
+        client.contact_email.should == attr[:contact_email]
+      end
+
+      context "with invalid attributes" do
+        context "templates" do
+          before(:each) do
+            post :create, :client => attr
+          end
+
+          it_behaves_like "a Kong controller"
+
+          it "should render the 'new' page" do
+            response.should render_template("new")
+          end
         end
 
-        it_behaves_like "a Kong controller"
-
-        it "should render the 'new' page" do
-          response.should render_template("new")
+        it "should not create a new client" do
+          expect {
+            post :create, :client => attr
+          }.to_not change(Client, :count)
         end
       end
 
-      it "should not create a new client" do
-        expect {
-          post :create, :client => attr
-        }.to_not change(Client, :count)
-      end
-    end
-
-    context "with valid attributes" do
-      it "should display a confirmation message (flash)" do
-        post :create, :client => attributes_for(:client)
-        flash[:success].should =~ /Client successfully created/
-      end
-
-      it "should redirect the user to the index page" do
-        post :create, :client => attributes_for(:client)
-        response.should redirect_to(kong_clients_url)
-      end
-
-      it "should create a new client" do
-        expect {
+      context "with valid attributes" do
+        it "should display a confirmation message (flash)" do
           post :create, :client => attributes_for(:client)
-        }.to change(Client, :count).by(1)
+          flash[:success].should =~ /Client successfully created/
+        end
+
+        it "should redirect the user to the index page" do
+          post :create, :client => attributes_for(:client)
+          response.should redirect_to(kong_clients_url)
+        end
+
+        it "should create a new client" do
+          expect {
+            post :create, :client => attributes_for(:client)
+          }.to change(Client, :count).by(1)
+        end
       end
     end
   end
@@ -143,85 +180,104 @@ describe Kong::ClientsController do
   describe "GET 'edit'" do
     let (:client) { create(:client) }
 
-    before(:each) do
+    it "should restrict access to signed in users" do
       get :edit, :id => client
+      response.should redirect_to kong_login_url
     end
 
-    it "returns http success" do
-      response.should be_success
-    end
+    context "for authenticated users" do
+      before(:each) do
+        controller.log_in(create(:user))
+        get :edit, :id => client
+      end
 
-    it "should fetch the correct client" do
-      assigns(:client).should == client
+      it "returns http success" do
+        response.should be_success
+      end
+
+      it "should fetch the correct client" do
+        assigns(:client).should == client
+      end
     end
   end
 
   describe "PUT 'update'" do
     let(:client) { create(:client) }
 
-    it "should fetch the correct client" do
-      put :update, :id => client, :client => attributes_for(:client)
-      assigns(:client).should == client
+    it "should restrict access to signed in users" do
+      put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
+      response.should redirect_to kong_login_url
     end
 
-    it "should not change the account name" do
-      put :update, :id => client,
-                   :client => attributes_for(:client, :account_name => "awesome")
-      client.reload
-      client.account_name.should_not == "awesome"
-      flash[:error].should =~ /The account name cannot be changed/
-      response.should render_template('edit')
-    end
+    context "for authenticated users" do
+      before(:each) do
+        controller.log_in(create(:user))
+      end
 
-    context "with invalid attributes" do
-      context "templates" do
-        before(:each) do
+      it "should fetch the correct client" do
+        put :update, :id => client, :client => attributes_for(:client)
+        assigns(:client).should == client
+      end
+
+      it "should not change the account name" do
+        put :update, :id => client,
+                     :client => attributes_for(:client, :account_name => "awesome")
+        client.reload
+        client.account_name.should_not == "awesome"
+        flash[:error].should =~ /The account name cannot be changed/
+        response.should render_template('edit')
+      end
+
+      context "with invalid attributes" do
+        context "templates" do
+          before(:each) do
+            put :update, :id => client,
+                         :client => attributes_for(:client, :contact_name => nil)
+          end
+
+          it_behaves_like "a Kong controller"
+
+          it "renders the 'edit' template" do
+            response.should render_template('edit')
+          end
+        end
+
+        it "returns http success" do
           put :update, :id => client,
                        :client => attributes_for(:client, :contact_name => nil)
+          response.should be_success
         end
 
-        it_behaves_like "a Kong controller"
-
-        it "renders the 'edit' template" do
-          response.should render_template('edit')
+        it "should not update the client attributes" do
+          put :update, :id => client,
+                       :client => attributes_for(:client, :contact_name  => "Captain Awesome",
+                                                          :contact_email => nil)
+          client.reload
+          client.contact_name.should_not == "Captain Awesome"
+          client.contact_email.should_not be_nil
         end
       end
 
-      it "returns http success" do
-        put :update, :id => client,
-                     :client => attributes_for(:client, :contact_name => nil)
-        response.should be_success
-      end
+      context "with valid attributes" do
+        it "should change the contact's attributes" do
+          put :update, :id => client,
+                       :client => attributes_for(:client, :account_name => client.account_name,
+                                                          :contact_name  => "Captain Awesome",
+                                                          :contact_email => "awesome@example.com")
+          client.reload
+          client.contact_name.should == "Captain Awesome"
+          client.contact_email.should == "awesome@example.com"
+        end
 
-      it "should not update the client attributes" do
-        put :update, :id => client,
-                     :client => attributes_for(:client, :contact_name  => "Captain Awesome",
-                                                        :contact_email => nil)
-        client.reload
-        client.contact_name.should_not == "Captain Awesome"
-        client.contact_email.should_not be_nil
-      end
-    end
+        it "should redirect the user to the clients index page" do
+          put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
+          response.should redirect_to kong_clients_url
+        end
 
-    context "with valid attributes" do
-      it "should change the contact's attributes" do
-        put :update, :id => client,
-                     :client => attributes_for(:client, :account_name => client.account_name,
-                                                        :contact_name  => "Captain Awesome",
-                                                        :contact_email => "awesome@example.com")
-        client.reload
-        client.contact_name.should == "Captain Awesome"
-        client.contact_email.should == "awesome@example.com"
-      end
-
-      it "should redirect the user to the clients index page" do
-        put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
-        response.should redirect_to kong_clients_url
-      end
-
-      it "should display a confirmation message" do
-        put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
-        flash[:success].should =~ /Client updated successfully/
+        it "should display a confirmation message" do
+          put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
+          flash[:success].should =~ /Client updated successfully/
+        end
       end
     end
   end
@@ -229,20 +285,31 @@ describe Kong::ClientsController do
   describe "DELETE 'destroy'" do
     let!(:client) { create(:client) }
 
-    it "should delete a client" do
-      expect {
+    it "should restrict access to signed in users" do
+      delete :destroy, :id => client
+      response.should redirect_to kong_login_url
+    end
+
+    context "for authenticated users" do
+      before(:each) do
+        controller.log_in(create(:user))
+      end
+
+      it "should delete a client" do
+        expect {
+          delete :destroy, :id => client
+        }.to change(Client, :count).by(-1)
+      end
+
+      it "should redirect the user to the clients page" do
         delete :destroy, :id => client
-      }.to change(Client, :count).by(-1)
-    end
+        response.should redirect_to(kong_clients_url)
+      end
 
-    it "should redirect the user to the clients page" do
-      delete :destroy, :id => client
-      response.should redirect_to(kong_clients_url)
-    end
-
-    it "should show the user a nice confirmation message" do
-      delete :destroy, :id => client
-      flash[:success].should =~ /Client deleted successfully/
+      it "should show the user a nice confirmation message" do
+        delete :destroy, :id => client
+        flash[:success].should =~ /Client deleted successfully/
+      end
     end
   end
 end

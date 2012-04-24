@@ -3,9 +3,8 @@ class Kong::BaseController < ActionController::Base
 
   layout 'kong'
 
-  helper_method :current_user
+  include Kong::SessionsHelper
 
-  def current_user
-    @current_user ||= Kong::User.find(session[:kong_user_id]) if session[:kong_user_id]
-  end
+  before_filter :authorize
 end
+

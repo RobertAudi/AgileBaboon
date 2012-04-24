@@ -1,4 +1,6 @@
 class Kong::SessionsController < Kong::BaseController
+  skip_before_filter :authorize
+
   def new
   end
 
