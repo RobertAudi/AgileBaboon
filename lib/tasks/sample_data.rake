@@ -3,7 +3,6 @@ namespace :baboon do
   task :populate => :environment do
     30.times do
       contact_name = Faker::Name.name
-      p contact_name
 
       Client.create!(
         :account_name => Faker::Company.name.split(" ").first.parameterize,
