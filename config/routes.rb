@@ -18,5 +18,12 @@ AgileBaboon::Application.routes.draw do
     end
   end
 
+  resources :sessions
+  get "/login" => "sessions#new", :as => "login"
+  delete "/logout" => "sessions#destroy", :as => "logout"
+
+
   get "/dashboard" => "dashboard#index", :as => "dashboard"
+
+  root :to => "sessions#new"
 end
