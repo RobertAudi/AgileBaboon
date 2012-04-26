@@ -9,7 +9,7 @@ class Kong::SessionsController < Kong::BaseController
   def create
     user = Kong::User.find_by_username(params[:login]) || Kong::User.find_by_email(params[:login])
     if user && user.authenticate(params[:password])
-      session[:kong_user_id] = user.id
+      log_in user
       flash[:success] = "Logged in successfully"
       redirect_to kong_root_url
     else
@@ -19,7 +19,12 @@ class Kong::SessionsController < Kong::BaseController
   end
 
   def destroy
-    session[:kong_user_id] = nil
-    redirect_to kong_login_url
+    if log_out
+      flash[:success] = "Successfully logged out"
+      redirect_to kong_login_url
+    else
+      flash[:error] = "Something went wrong, not logged out"
+      redirect_to kong_root_url
+    end
   end
 end

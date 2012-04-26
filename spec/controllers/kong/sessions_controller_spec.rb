@@ -22,12 +22,12 @@ describe Kong::SessionsController do
       let(:attr) { { :login => "", :password => "" } }
 
       it "should render the 'new' template" do
-        post :create, :kong_sessions => attr
+        post :create, :login => attr[:login], :password => attr[:password]
         response.should render_template('new')
       end
 
       it "should show an error message" do
-        post :create, :kong_sessions => attr
+        post :create, :login => attr[:login], :password => attr[:password]
         flash[:error].should =~ /Login\/Password combination incorrect/
       end
     end
@@ -36,7 +36,7 @@ describe Kong::SessionsController do
       let(:attr) { {:login => "user", :password => "password" } }
 
       before(:each) do
-        @user = create(:user, :username => "user",
+        @user = create(:kong_user, :username => "user",
                       :password => "password",
                       :password_confirmation => "password")
       end
@@ -62,14 +62,20 @@ describe Kong::SessionsController do
     let(:attr) { {:login => "user", :password => "password" } }
 
     before(:each) do
-      @user = create(:user, :username => "user",
+      @user = create(:kong_user, :username => "user",
                             :password => "password",
                             :password_confirmation => "password")
+      controller.log_in @user
     end
 
     it "should log the user out" do
       delete :destroy, :id => @user.id
       session[:kong_user_id].should be_nil
+    end
+
+    it "should display a confirmation message" do
+      delete :destroy, :id => @user.id
+      flash[:success].should =~ /Successfully logged out/
     end
 
     it "should redirect the user to the login page" do
