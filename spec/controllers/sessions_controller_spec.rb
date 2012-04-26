@@ -24,6 +24,11 @@ describe SessionsController do
       get :new
       ActsAsTenant.current_tenant.account_name.should == "acme"
     end
+
+    it "should use the login layout" do
+      get :new
+      response.should render_template("login")
+    end
   end
 
   describe "POST 'create'" do
