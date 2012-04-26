@@ -25,7 +25,7 @@ describe Kong::ClientsController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
         get :index
       end
 
@@ -64,7 +64,7 @@ describe Kong::ClientsController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
         get :show, :id => client.id
       end
 
@@ -88,7 +88,7 @@ describe Kong::ClientsController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
         get :new
       end
 
@@ -120,7 +120,7 @@ describe Kong::ClientsController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
       end
 
       it "returns http success" do
@@ -187,7 +187,7 @@ describe Kong::ClientsController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
         get :edit, :id => client
       end
 
@@ -211,7 +211,7 @@ describe Kong::ClientsController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
       end
 
       it "should fetch the correct client" do
@@ -292,7 +292,7 @@ describe Kong::ClientsController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
       end
 
       it "should delete a client" do

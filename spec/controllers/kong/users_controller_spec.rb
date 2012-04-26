@@ -14,7 +14,7 @@ describe Kong::UsersController do
   describe "GET 'index'" do
     before(:each) do
       42.times do
-        create(:user)
+        create(:kong_user)
       end
     end
 
@@ -25,7 +25,7 @@ describe Kong::UsersController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
         get :index
       end
 
@@ -61,7 +61,7 @@ describe Kong::UsersController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
         get :new
       end
 
@@ -88,13 +88,13 @@ describe Kong::UsersController do
     end
 
     it "should restrict access to authenticated users" do
-      controller.log_in(create(:user))
-      post :create, :kong_user => attributes_for(:user)
+      controller.log_in(create(:kong_user))
+      post :create, :kong_user => attributes_for(:kong_user)
     end
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
       end
 
       it "returns http success" do
@@ -134,18 +134,18 @@ describe Kong::UsersController do
 
       context "with valid attributes" do
         it "should display a confirmation message (flash)" do
-          post :create, :kong_user => attributes_for(:user)
+          post :create, :kong_user => attributes_for(:kong_user)
           flash[:success].should =~ /User created successfully/
         end
 
         it "should redirect to the users index page" do
-          post :create, :kong_user => attributes_for(:user)
+          post :create, :kong_user => attributes_for(:kong_user)
           response.should redirect_to(kong_users_url)
         end
 
         it "should create a new user" do
           expect {
-            post :create, :kong_user => attributes_for(:user)
+            post :create, :kong_user => attributes_for(:kong_user)
           }.to change(Kong::User, :count).by(1)
         end
       end
@@ -153,7 +153,7 @@ describe Kong::UsersController do
   end
 
   describe "GET 'edit'" do
-    let(:user) { create(:user) }
+    let(:user) { create(:kong_user) }
 
     it "should restrict access to authenticated users" do
       get :edit, :id => user
@@ -162,7 +162,7 @@ describe Kong::UsersController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
         get :edit, :id => user
       end
 
@@ -177,27 +177,27 @@ describe Kong::UsersController do
   end
 
   describe "PUT 'update'" do
-    let(:user) { create(:user) }
+    let(:user) { create(:kong_user) }
 
     it "should restrict access to authenticated users" do
-      put :update, :id => user, :kong_user => attributes_for(:user)
+      put :update, :id => user, :kong_user => attributes_for(:kong_user)
       response.should redirect_to kong_login_url
     end
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
       end
 
       it "should fetch the correct user" do
-        put :update, :id => user, :kong_user => attributes_for(:user)
+        put :update, :id => user, :kong_user => attributes_for(:kong_user)
         assigns(:user).should == user
       end
 
       context "with invalid attributes" do
         context "templates" do
           before(:each) do
-            put :update, :id => user, :kong_user => attributes_for(:user, :username => nil)
+            put :update, :id => user, :kong_user => attributes_for(:kong_user, :username => nil)
           end
 
           it_behaves_like "a Kong controller"
@@ -208,12 +208,12 @@ describe Kong::UsersController do
         end
 
         it "returns http success" do
-          put :update, :id => user, :kong_user => attributes_for(:user, :username => nil)
+          put :update, :id => user, :kong_user => attributes_for(:kong_user, :username => nil)
           response.should be_success
         end
 
         it "should not update the user attributes" do
-          put :update, :id => user, :kong_user => attributes_for(:user, :username => "user",
+          put :update, :id => user, :kong_user => attributes_for(:kong_user, :username => "user",
                                                                    :email => nil)
 
           user.reload
@@ -224,7 +224,7 @@ describe Kong::UsersController do
 
       context "with valid attributes" do
         it "should change the user's attributes" do
-          put :update, :id => user, :kong_user => attributes_for(:user, :username => "user",
+          put :update, :id => user, :kong_user => attributes_for(:kong_user, :username => "user",
                                                                    :email => "user@example.com")
 
           user.reload
@@ -233,12 +233,12 @@ describe Kong::UsersController do
         end
 
         it "should show a confirmation message" do
-          put :update, :id => user, :kong_user => attributes_for(:user)
+          put :update, :id => user, :kong_user => attributes_for(:kong_user)
           flash[:success].should =~ /User updated successfully/
         end
 
         it "should redirect the user to the users index page" do
-          put :update, :id => user, :kong_user => attributes_for(:user)
+          put :update, :id => user, :kong_user => attributes_for(:kong_user)
           response.should redirect_to(kong_users_url)
         end
       end
@@ -246,7 +246,7 @@ describe Kong::UsersController do
   end
 
   describe "DELETE 'destroy'" do
-    let!(:user) { create(:user) }
+    let!(:user) { create(:kong_user) }
 
     it "should restrict access to authenticated users" do
       delete :destroy, :id => user
@@ -255,7 +255,7 @@ describe Kong::UsersController do
 
     context "for authenticated users" do
       before(:each) do
-        controller.log_in(create(:user))
+        controller.log_in(create(:kong_user))
       end
 
       it "should delete a user" do
