@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   include SessionsHelper
 
-  before_filter :check_subdomain
+  before_filter :check_subdomain, :authorize
 
   private
 
