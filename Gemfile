@@ -34,6 +34,7 @@ group :development do
   gem 'faker'
   gem 'rails-footnotes', '>= 3.7.5.rc4'
   gem 'spork-rails'
+  gem 'guard-spork'
 end
 
 group :test do
