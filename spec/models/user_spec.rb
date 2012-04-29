@@ -24,7 +24,7 @@ describe User do
 
   describe "User specification" do
     context "username" do
-      it "should a username attribute" do
+      it "should have a username attribute" do
         User.new(attr).should respond_to(:username)
       end
 
