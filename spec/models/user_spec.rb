@@ -22,6 +22,8 @@ describe User do
     }
   end
 
+  it { should have_many :issues }
+
   describe "User specification" do
     context "username" do
       it "should have a username attribute" do

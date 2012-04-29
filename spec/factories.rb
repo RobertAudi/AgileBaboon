@@ -19,4 +19,8 @@ FactoryGirl.define do
     sequence(:password)              { |n| "password" }
     sequence(:password_confirmation) { |n| "password" }
   end
+
+  factory :issue_type do
+    sequence(:label) { |n| "BUG#{n}" }
+  end
 end

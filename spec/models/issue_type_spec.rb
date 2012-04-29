@@ -3,6 +3,8 @@ require 'spec_helper'
 describe IssueType do
   let(:attr) { { label: "BUG" } }
 
+  it { should have_many :issues }
+
   describe "Issue Type specification" do
     context "label" do
       it "should have a label attribute" do
