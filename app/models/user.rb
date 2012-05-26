@@ -20,9 +20,9 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :username
 
   validates :username, :presence => true,
-                       :uniqueness => { :case_sensitive => false },
                        :length => { :within => 4..50 },
                        :format => { :with => /(?:[\w\d]){4,255}/ }
+  validates_uniqueness_to_tenant :username, :case_sensitive => false
 
   validates :email, :presence => true,
                     :uniqueness => { :case_sensitive => false },
