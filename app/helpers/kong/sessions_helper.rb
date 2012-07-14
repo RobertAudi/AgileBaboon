@@ -1,23 +1,23 @@
 module Kong::SessionsHelper
   def log_in(user)
     session[:kong_user_id] = user.id
-    current_user = user
+    current_kong_user = user
   end
 
   def logged_in?
-    !current_user.nil?
+    !current_kong_user.nil?
   end
 
-  def current_user=(user)
-    @current_user = user
+  def current_kong_user=(user)
+    @current_kong_user = user
   end
 
-  def current_user
-    @current_user ||= Kong::User.find(session[:kong_user_id]) if session[:kong_user_id]
+  def current_kong_user
+    @current_kong_user ||= Kong::User.find(session[:kong_user_id]) if session[:kong_user_id]
   end
 
   def log_out
-    current_user = nil
+    current_kong_user = nil
     session.delete(:kong_user_id)
   end
 
