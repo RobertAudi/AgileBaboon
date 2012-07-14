@@ -4,6 +4,10 @@ class Kong::SessionsController < Kong::BaseController
   skip_before_filter :authorize
 
   def new
+    if logged_in?
+      flash[:notice] = "You are already logged in"
+      redirect_to kong_root_url
+    end
   end
 
   def create
