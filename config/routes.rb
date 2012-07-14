@@ -26,5 +26,5 @@ AgileBaboon::Application.routes.draw do
 
   get "/dashboard" => "dashboard#index", :as => "dashboard"
 
-  root :to => "sessions#new"
+  root :to => "dashboard#index"
 end
