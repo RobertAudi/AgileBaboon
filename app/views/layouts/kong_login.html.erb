@@ -9,15 +9,17 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div id="login-box">
-      <% flash.each do |key, value| %>
-        <div class="notification <%= key %>">
-          <span class="strong"><%= key.capitalize %>:</span>
-          <%= value %>
-        </div>
-      <% end %>
+    <div class="page-wrap">
+      <div id="login-box">
+        <% flash.each do |key, value| %>
+          <div class="notification <%= key %>">
+            <span class="strong"><%= key.capitalize %>:</span>
+            <%= value %>
+          </div>
+        <% end %>
 
-      <%= yield %>
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>
