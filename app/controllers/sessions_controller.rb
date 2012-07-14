@@ -4,6 +4,10 @@ class SessionsController < ApplicationController
   layout 'login'
 
   def new
+    if logged_in?
+      flash[:notice] = "You are already logged in!"
+      redirect_to dashboard_url
+    end
   end
 
   def create
