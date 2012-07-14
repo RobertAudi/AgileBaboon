@@ -20,13 +20,13 @@ class Issue < ActiveRecord::Base
   belongs_to :user
   acts_as_tenant(:client)
 
-  validates :title, :presence => true
+  validates :title, presence: true
 
-  validates :issue_type_id, :presence => true,
-                            :numericality => { :only_integer => true,
-                                               :greater_than => 0 }
+  validates :issue_type_id, presence: true,
+                            numericality: { only_integer: true,
+                                            greater_than: 0 }
 
-  validates :user_id, :presence => true,
-                      :numericality => { :only_integer => true,
-                                         :greater_than => 0 }
+  validates :user_id, presence: true,
+                      numericality: { only_integer: true,
+                                      greater_than: 0 }
 end

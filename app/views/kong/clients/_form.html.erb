@@ -1,7 +1,7 @@
 <% if client.new_record? %>
   <%= f.input :account_name  %>
 <% else %>
-  <%= f.input :account_name, :disabled => true %>
+  <%= f.input :account_name, disabled: true %>
 <% end %>
 <%= f.input :contact_name  %>
 <%= f.input :contact_email %>

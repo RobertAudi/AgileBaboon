@@ -4,8 +4,8 @@
     <title>Kong</title>
 
     <!-- Stylesheets -->
-    <%= stylesheet_link_tag    "kong/base", :media => "all" %>
-    <%= stylesheet_link_tag    params[:controller], :media => "all" %>
+    <%= stylesheet_link_tag    "kong/base", media: "all" %>
+    <%= stylesheet_link_tag    params[:controller], media: "all" %>
 
     <%= csrf_meta_tags %>
   </head>
@@ -15,7 +15,7 @@
         <section id="logo"><%= image_tag "logo.png" %></section>
         <section id="authentication">
           <%# Styling looks odd, fix it! %>
-          <p>Logged in as <%= current_kong_user.username %> | <%= button_to "Logout", kong_logout_path, :method => :delete %></p>
+          <p>Logged in as <%= current_kong_user.username %> | <%= button_to "Logout", kong_logout_path, method: :delete %></p>
         </section>
       </section>
       <section id="header-bottom">

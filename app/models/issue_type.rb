@@ -15,9 +15,9 @@ class IssueType < ActiveRecord::Base
 
   before_save :format_label
 
-  validates :label, :presence => true,
-                    :uniqueness => { case_sensitive: false },
-                    :length => { within: 3..10 }
+  validates :label, presence: true,
+                    uniqueness: { case_sensitive: false },
+                    length: { within: 3..10 }
 
   private
 

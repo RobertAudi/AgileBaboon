@@ -63,9 +63,9 @@ class Kong::ClientsController < Kong::BaseController
   # Create an admin user for the new client
   def create_admin_user_for(client)
     ActsAsTenant.current_tenant = client
-    ::User.create!(:username => "admin",
-                   :email => client.contact_email,
-                   :password => "admin",
-                   :password_confirmation => "admin")
+    ::User.create!(username: "admin",
+                   email: client.contact_email,
+                   password: "admin",
+                   password_confirmation: "admin")
   end
 end
