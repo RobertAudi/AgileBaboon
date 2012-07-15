@@ -43,6 +43,9 @@ Spork.prefork do
 
     # Include FactoryGirl methods
     config.include FactoryGirl::Syntax::Methods
+
+    # Colors
+    config.color_enabled = true
   end
 end
 
