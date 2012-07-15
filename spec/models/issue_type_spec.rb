@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: issue_types
+#
+#  id         :integer         not null, primary key
+#  label      :string(255)     not null
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+
 require 'spec_helper'
 
 describe IssueType do
