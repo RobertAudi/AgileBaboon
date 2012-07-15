@@ -35,14 +35,14 @@ describe UsersController do
         assigns(:users).should == User.page(1).per(10)
       end
 
-      it "should have a table row for each client" do
+      it "should have a table row for each user" do
         User.page(1).per(10).each do |user|
           response.body.should have_selector('tr > td', :text => user.username)
           response.body.should have_selector('tr > td', :text => user.email)
         end
       end
 
-      it "should paginate the clients table" do
+      it "should paginate the users table" do
         response.body.should have_selector('.pagination')
         response.body.should have_selector('.pagination .page')
       end
