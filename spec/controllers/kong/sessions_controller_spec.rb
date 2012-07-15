@@ -43,7 +43,7 @@ describe Kong::SessionsController do
 
       it "should sign the user in" do
         post :create, :login => attr[:login], :password => attr[:password]
-        controller.current_user.should == @user
+        controller.current_kong_user.should == @user
       end
 
       it "should show the user a nice confirmation message" do
