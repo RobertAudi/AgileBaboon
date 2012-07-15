@@ -14,7 +14,7 @@ describe UsersController do
   describe "GET 'index'" do
     it "should restrict access to signed in users" do
       get :index
-      response.should redirect_to kong_login_url
+      response.should redirect_to login_url
     end
 
     context "for authenticated users" do
