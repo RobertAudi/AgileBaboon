@@ -19,10 +19,6 @@ describe UsersController do
 
     context "for authenticated users" do
       before(:each) do
-        42.times do
-          create(:user)
-        end
-
         controller.log_in(create(:user))
         get :index
       end
@@ -43,6 +39,12 @@ describe UsersController do
       end
 
       it "should paginate the users table" do
+        42.times do
+          create(:user)
+        end
+
+        get :index
+
         response.body.should have_selector('.pagination')
         response.body.should have_selector('.pagination .page')
       end
