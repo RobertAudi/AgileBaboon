@@ -8,8 +8,7 @@ describe UsersController do
   before(:each) do
     @request.host = "#{client.account_name}.lvh.me"
 
-    # NOTE: I don't understand why this line is needed...
-    ActsAsTenant.current_tenant = client if ActsAsTenant.current_tenant.nil?
+    ActsAsTenant.current_tenant = client
   end
 
   describe "GET 'index'" do
