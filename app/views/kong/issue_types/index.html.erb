@@ -1,0 +1,13 @@
+<p style="margin-bottom: 20px;"><%= link_to "Create new issue type", new_kong_issue_type_path %></p>
+<table>
+  <tr>
+    <th>Label</th>
+  </tr>
+  <% @issue_types.each do |issue_type| %>
+    <tr>
+      <td><%= link_to issue_type.label, edit_kong_issue_type_path(issue_type) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= paginate @issue_types %>

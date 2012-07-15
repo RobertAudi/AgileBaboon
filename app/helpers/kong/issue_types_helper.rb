@@ -1,0 +1,2 @@
+module Kong::IssueTypesHelper
+end

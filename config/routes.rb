@@ -2,6 +2,9 @@ AgileBaboon::Application.routes.draw do
   # Kong routes
   constraints :subdomain => 'kong' do
     scope :module => 'kong', :as => 'kong' do
+      # Issue Types
+      resources :issue_types, except: [:show]
+
       # Clients
       resources :clients
 
