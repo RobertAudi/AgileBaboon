@@ -34,4 +34,9 @@ class User < ActiveRecord::Base
                        length: { within: 4..255 }
 
   validates :password_confirmation, presence: true, on: :create
+
+  # NOTE: Used by SimpleForm to display the dropdown proerply
+  def to_label
+    "#{username}"
+  end
 end

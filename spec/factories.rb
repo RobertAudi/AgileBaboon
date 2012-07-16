@@ -23,4 +23,11 @@ FactoryGirl.define do
   factory :issue_type do
     sequence(:label) { |n| "BUG#{n}" }
   end
+
+  factory :issue do
+    sequence(:title)         { |n| "Issue ##{n}" }
+    sequence(:description)   { |n| "This is issue ##{n}" }
+    issue_type
+    user
+  end
 end

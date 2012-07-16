@@ -19,6 +19,11 @@ class IssueType < ActiveRecord::Base
                     uniqueness: { case_sensitive: false },
                     length: { within: 3..10 }
 
+  # NOTE: Used by SimpleForm to display the dropdown proerply
+  def to_label
+    "#{label}"
+  end
+
   private
 
   def format_label

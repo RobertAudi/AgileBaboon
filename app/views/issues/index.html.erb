@@ -1,0 +1,17 @@
+<p style="margin-bottom: 20px;"><%= link_to "Create new issue", new_issue_path %></p>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Type</th>
+    <th>User</th>
+  </tr>
+  <% @issues.each do |issue| %>
+    <tr>
+      <td><%= link_to issue.title, edit_issue_path(issue) %></td>
+      <td><%= issue.issue_type.label %></td>
+      <td><%= issue.user.username %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= paginate @issues %>

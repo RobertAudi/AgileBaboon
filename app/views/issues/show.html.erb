@@ -1,0 +1,13 @@
+<section id="issue">
+  <h1><%= @issue.title %></h1>
+  <small><%= link_to "Edit", edit_issue_path(@issue) %></small>
+  <% unless @issue.description.blank? %>
+    <section id="description">
+    <%= @issue.description %>
+    </section>
+  <% end %>
+  <ul>
+    <li><strong>Issue type:</strong> <%= @issue.issue_type.label %></li>
+    <li><strong>Associated user:</strong> <%= @issue.user.username %></li>
+  </ul>
+</section>
