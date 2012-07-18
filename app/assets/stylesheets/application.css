@@ -11,3 +11,14 @@
  *= require_self
  *= require_directory .
 */
+form abbr[title="required"]
+{
+  color: red;
+}
+form span.error
+{
+  color: red;
+  font-size: 90%;
+  display: block;
+  margin: -5px 0 10px 2px;
+}

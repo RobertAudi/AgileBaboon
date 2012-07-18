@@ -62,6 +62,8 @@ module AgileBaboon
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    config.assets.paths << Rails.root.join("vendor", "assets")
+
     # Don't generate view and helper specs
     config.generators do |g|
       g.view_specs false
