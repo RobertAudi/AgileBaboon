@@ -25,7 +25,9 @@ module SessionsHelper
     unless logged_in?
       store_location
       flash[:notice] = "Acces to this section of the site is restricted"
-      redirect_to kong_login_url
+      redirect_to login_url
+    end
+  end
     end
   end
 
