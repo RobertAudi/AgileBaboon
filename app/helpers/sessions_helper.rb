@@ -28,6 +28,11 @@ module SessionsHelper
       redirect_to login_url
     end
   end
+
+  def require_admin
+    unless current_user.admin?
+      flash[:notice] = "You don't have permission to access this section of the site"
+      redirect_to dashboard_url
     end
   end
 

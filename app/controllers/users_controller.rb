@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :require_admin
+
   def index
     @users = User.page(params[:page]).per(10)
   end

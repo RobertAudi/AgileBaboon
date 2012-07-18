@@ -103,6 +103,23 @@
                     </div>
                   </div>
                 </div>
+                <% if current_user.admin? %>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
+                      <i class="icon-user"></i> Users
+                    </a>
+                  </div>
+                  <div class="accordion-body collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                      <ul class="nav nav-list">
+                        <li><%= link_to "Manage users", users_path %></li>
+                        <li><%= link_to "Create user", new_user_path %></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <% end %>
               </div>
             </div>
           </div>

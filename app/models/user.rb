@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   has_many :issues
   acts_as_tenant(:client)
 
-  attr_accessible :email, :password, :password_confirmation, :username
+  attr_accessible :email, :password, :password_confirmation, :username, :admin
 
   validates :username, presence: true,
                        length: { within: 4..50 },
@@ -35,8 +35,16 @@ class User < ActiveRecord::Base
 
   validates :password_confirmation, presence: true, on: :create
 
+  validates :admin, inclusion: { in: [true, false],
+                                 message: "Invalid value for admin" }
+
   # NOTE: Used by SimpleForm to display the dropdown proerply
   def to_label
     "#{username}"
+  end
+
+  # Returns true if the admin field is set to true
+  def admin?
+    self.admin
   end
 end

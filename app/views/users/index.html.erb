@@ -1,5 +1,7 @@
 <h3 class="heading">Users</h3>
+<% if current_user.admin? %>
 <p style="margin-bottom: 20px;"><%= link_to "Create new user", new_user_path %></p>
+<% end %>
 <table class="table table-striped">
   <tr>
     <th>Username</th>
