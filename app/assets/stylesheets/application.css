@@ -21,4 +21,5 @@ form span.error
   font-size: 90%;
   display: block;
   margin: -5px 0 10px 2px;
+  font-weight: bold;
 }
