@@ -20,13 +20,15 @@ class Issue < ActiveRecord::Base
   belongs_to :user
   acts_as_tenant(:client)
 
-  validates :title, presence: true
+  validates :title, presence: { message: "The title is required" }
 
-  validates :issue_type_id, presence: true,
+  validates :issue_type_id, presence: { message: "An issue type is required" },
                             numericality: { only_integer: true,
-                                            greater_than: 0 }
+                                            greater_than: 0,
+                                            message: "Invalid issue type" }
 
-  validates :user_id, presence: true,
+  validates :user_id, presence: { message: "A user is required" },
                       numericality: { only_integer: true,
-                                      greater_than: 0 }
+                                      greater_than: 0,
+                                      message: "Invalid user" }
 end
