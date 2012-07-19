@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :require_admin
+  before_filter :require_admin, except: [:edit, :update]
 
   def index
     @users = User.page(params[:page]).per(10)
@@ -21,13 +21,24 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    unless current_user.admin? || @user == current_user
+      flash[:notice] = "You don't have permission to access this section of the site"
+      redirect_to dashboard_url
+    end
   end
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
+    if !current_user.admin? && @user != current_user
+      flash[:notice] = "You don't have permission to access this section of the site"
+      redirect_to dashboard_url
+    elsif @user.update_attributes(params[:user])
       flash[:success] = "User updated successfully"
-      redirect_to users_url
+      if current_user.admin?
+        redirect_to users_url
+      else
+        redirect_to dashboard_url
+      end
     else
       render 'edit'
     end

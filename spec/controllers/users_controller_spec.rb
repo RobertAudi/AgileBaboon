@@ -187,6 +187,13 @@ describe UsersController do
         response.should redirect_to dashboard_url
       end
 
+      it "should let users edit their own profile" do
+        normal_user = create(:user, admin: false)
+        controller.log_in(normal_user)
+        get :edit, id: normal_user
+        response.should be_success
+      end
+
       context "for admin users" do
         before(:each) do
           controller.log_in(create(:user))
@@ -195,6 +202,10 @@ describe UsersController do
 
         it "returns http success" do
           response.should be_success
+        end
+
+        it "should render the 'edit' template" do
+          response.should render_template 'edit'
         end
 
         it "should fetch the correct user" do
@@ -216,6 +227,23 @@ describe UsersController do
       it "should deny access to non-admins" do
         controller.log_in(create(:user, admin: false))
         put :update, id: user, user: attributes_for(:user)
+        response.should redirect_to dashboard_url
+      end
+
+      it "should let users edit their own profile" do
+        normal_user = create(:user, admin: false)
+        controller.log_in(normal_user)
+
+        # With invalid attributes
+        put :update, id: normal_user, user: attributes_for(:user, username: nil, admin: false)
+        normal_user.reload
+        response.should render_template('edit')
+        normal_user.username.should_not be_nil
+
+        # With valid attributes
+        put :update, id: normal_user, user: attributes_for(:user, username: "admin", admin: false)
+        normal_user.reload
+        normal_user.username.should == "admin"
         response.should redirect_to dashboard_url
       end
 
