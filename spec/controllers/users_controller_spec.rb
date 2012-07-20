@@ -18,13 +18,13 @@ describe UsersController do
     end
 
     context "for authenticated users" do
-      it "should deny access to non-admins" do
-        controller.log_in(create(:user, admin: false))
+      it "should deny access to non-superadmins" do
+        controller.log_in(create(:user, superadmin: false))
         get :index
         response.should redirect_to dashboard_url
       end
 
-      context "for admin users" do
+      context "for superadmin users" do
         before(:each) do
           controller.log_in(create(:user))
           get :index
@@ -66,13 +66,13 @@ describe UsersController do
     end
 
     context "for authenticated users" do
-      it "should deny access to non-admins" do
-        controller.log_in(create(:user, admin: false))
+      it "should deny access to non-superadmins" do
+        controller.log_in(create(:user, superadmin: false))
         get :new
         response.should redirect_to dashboard_url
       end
 
-      context "for admin users" do
+      context "for superadmin users" do
         before(:each) do
           controller.log_in(create(:user))
           get :new
@@ -96,7 +96,7 @@ describe UsersController do
         email:    "",
         password: "",
         password_confirmation: "",
-        admin: false
+        superadmin: false
       }
     end
 
@@ -106,13 +106,13 @@ describe UsersController do
     end
 
     context "for authenticated users" do
-      it "should deny access to non-admins" do
-        controller.log_in(create(:user, admin: false))
+      it "should deny access to non-superadmins" do
+        controller.log_in(create(:user, superadmin: false))
         post :create, user: attributes_for(:user)
         response.should redirect_to dashboard_url
       end
 
-      context "for admin users" do
+      context "for superadmin users" do
         before(:each) do
           controller.log_in(create(:user))
         end
@@ -181,20 +181,20 @@ describe UsersController do
     end
 
     context "for authenticated users" do
-      it "should deny access to non-admins" do
-        controller.log_in(create(:user, admin: false))
+      it "should deny access to non-superadmins" do
+        controller.log_in(create(:user, superadmin: false))
         get :edit, id: user
         response.should redirect_to dashboard_url
       end
 
       it "should let users edit their own profile" do
-        normal_user = create(:user, admin: false)
+        normal_user = create(:user, superadmin: false)
         controller.log_in(normal_user)
         get :edit, id: normal_user
         response.should be_success
       end
 
-      context "for admin users" do
+      context "for superadmin users" do
         before(:each) do
           controller.log_in(create(:user))
           get :edit, id: user
@@ -224,30 +224,30 @@ describe UsersController do
     end
 
     context "for authenticated users" do
-      it "should deny access to non-admins" do
-        controller.log_in(create(:user, admin: false))
+      it "should deny access to non-superadmins" do
+        controller.log_in(create(:user, superadmin: false))
         put :update, id: user, user: attributes_for(:user)
         response.should redirect_to dashboard_url
       end
 
       it "should let users edit their own profile" do
-        normal_user = create(:user, admin: false)
+        normal_user = create(:user, superadmin: false)
         controller.log_in(normal_user)
 
         # With invalid attributes
-        put :update, id: normal_user, user: attributes_for(:user, username: nil, admin: false)
+        put :update, id: normal_user, user: attributes_for(:user, username: nil, superadmin: false)
         normal_user.reload
         response.should render_template('edit')
         normal_user.username.should_not be_nil
 
         # With valid attributes
-        put :update, id: normal_user, user: attributes_for(:user, username: "admin", admin: false)
+        put :update, id: normal_user, user: attributes_for(:user, username: "admin", superadmin: false)
         normal_user.reload
         normal_user.username.should == "admin"
         response.should redirect_to dashboard_url
       end
 
-      context "for admin users" do
+      context "for superadmin users" do
         before(:each) do
           controller.log_in(create(:user))
         end
@@ -316,13 +316,13 @@ describe UsersController do
     end
 
     context "for authenticated users" do
-      it "should deny access to non-admins" do
-        controller.log_in(create(:user, admin: false))
+      it "should deny access to non-superadmins" do
+        controller.log_in(create(:user, superadmin: false))
         delete :destroy, id: user
         response.should redirect_to dashboard_url
       end
 
-      context "for admin users" do
+      context "for superadmin users" do
         before(:each) do
           controller.log_in(create(:user))
         end

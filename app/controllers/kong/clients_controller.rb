@@ -15,7 +15,7 @@ class Kong::ClientsController < Kong::BaseController
     @client = Client.new(params[:client])
     if @client.save
       begin
-        create_admin_user_for(@client)
+        create_superadmin_user_for(@client)
       rescue
         @client.destroy
         flash[:error] = "Something went wrong, the client was not created."
@@ -60,8 +60,8 @@ class Kong::ClientsController < Kong::BaseController
 
   private
 
-  # Create an admin user for the new client
-  def create_admin_user_for(client)
+  # Create an superadmin user for the new client
+  def create_superadmin_user_for(client)
     ActsAsTenant.current_tenant = client
     ::User.create!(username: "admin",
                    email: client.contact_email,
