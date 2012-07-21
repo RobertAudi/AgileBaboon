@@ -18,7 +18,6 @@ FactoryGirl.define do
     sequence(:email)      { |n| "user#{n}@example.com" }
     password              "password"
     password_confirmation { |u| u.password }
-    superadmin            true
   end
 
   factory :issue_type do

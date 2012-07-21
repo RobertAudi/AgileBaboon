@@ -29,13 +29,6 @@ module SessionsHelper
     end
   end
 
-  def require_superadmin
-    unless current_user.superadmin?
-      flash[:notice] = "You don't have permission to access this section of the site"
-      redirect_to dashboard_url
-    end
-  end
-
   def redirect_back_or_to(default)
     redirect_to(session[:return_to] || default)
     session.delete(:return_to)

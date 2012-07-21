@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  before_filter :require_superadmin, except: [:edit, :update]
-
   def index
     @users = User.page(params[:page]).per(10)
   end
@@ -21,24 +19,13 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    unless current_user.superadmin? || @user == current_user
-      flash[:notice] = "You don't have permission to access this section of the site"
-      redirect_to dashboard_url
-    end
   end
 
   def update
     @user = User.find(params[:id])
-    if !current_user.superadmin? && @user != current_user
-      flash[:notice] = "You don't have permission to access this section of the site"
-      redirect_to dashboard_url
-    elsif @user.update_attributes(params[:user])
+    if @user.update_attributes(params[:user])
       flash[:success] = "User updated successfully"
-      if current_user.superadmin?
-        redirect_to users_url
-      else
-        redirect_to dashboard_url
-      end
+      redirect_to users_url
     else
       render 'edit'
     end

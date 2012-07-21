@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   has_many :issues
   acts_as_tenant(:client)
 
-  attr_accessible :email, :password, :password_confirmation, :username, :superadmin
+  attr_accessible :email, :password, :password_confirmation, :username
 
   validates :username, presence: true,
                        length: { within: 4..50 },
@@ -35,16 +35,8 @@ class User < ActiveRecord::Base
 
   validates :password_confirmation, presence: true, on: :create
 
-  validates :superadmin, inclusion: { in: [true, false],
-                                 message: "Invalid value for superadmin" }
-
   # NOTE: Used by SimpleForm to display the dropdown proerply
   def to_label
     "#{username}"
-  end
-
-  # Returns true if the superadmin field is set to true
-  def superadmin?
-    self.superadmin
   end
 end
