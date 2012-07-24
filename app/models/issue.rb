@@ -18,7 +18,6 @@ class Issue < ActiveRecord::Base
 
   belongs_to :issue_type
   belongs_to :user
-  acts_as_tenant(:client)
 
   validates :title, presence: { message: "The title is required" }
 

@@ -24,17 +24,11 @@ gem 'jquery-rails'
 group :development do
   gem 'rspec-rails'
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
-  gem 'guard'
-  gem 'guard-annotate'
-  gem 'guard-rspec'
-  gem 'ruby_gntp'
   gem 'quiet_assets'
   gem 'thin'
   gem 'pry'
   gem 'faker'
   gem 'rails-footnotes', '>= 3.7.5.rc4'
-  gem 'spork-rails'
-  gem 'guard-spork'
 end
 
 group :test do
@@ -49,5 +43,3 @@ gem 'kaminari'
 gem 'simple_form'
 
 gem 'bcrypt-ruby', :require => 'bcrypt'
-
-gem 'acts_as_tenant'
