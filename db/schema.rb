@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120721144240) do
+ActiveRecord::Schema.define(:version => 20120725151133) do
 
   create_table "clients", :force => true do |t|
     t.string   "account_name",  :null => false
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(:version => 20120721144240) do
     t.string   "password_digest", :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.integer  "client_id"
+    t.integer  "client_id",       :null => false
   end
 
 end

@@ -18,6 +18,9 @@ FactoryGirl.define do
     sequence(:email)      { |n| "user#{n}@example.com" }
     password              "password"
     password_confirmation { |u| u.password }
+
+    # I need to hardcode the client id here due to FactoryGirl sucking ass
+    client_id             1
   end
 
   factory :issue_type do
@@ -29,5 +32,6 @@ FactoryGirl.define do
     sequence(:description)   { |n| "This is issue ##{n}" }
     issue_type
     user
+    client
   end
 end

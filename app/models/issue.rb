@@ -18,6 +18,7 @@ class Issue < ActiveRecord::Base
 
   belongs_to :issue_type
   belongs_to :user
+  belongs_to :client
 
   validates :title, presence: { message: "The title is required" }
 

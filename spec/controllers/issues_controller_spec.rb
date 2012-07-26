@@ -7,8 +7,6 @@ describe IssuesController do
 
   before(:each) do
     @request.host = "#{client.account_name}.lvh.me"
-
-    ActsAsTenant.current_tenant = client
   end
 
   describe "GET 'index'" do

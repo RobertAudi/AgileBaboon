@@ -14,11 +14,13 @@
 class User < ActiveRecord::Base
   has_secure_password
 
+  belongs_to :client
   has_many :issues
 
-  attr_accessible :email, :password, :password_confirmation, :username
+  attr_accessible :email, :password, :password_confirmation, :username, :client_id
 
   validates :username, presence: true,
+                       uniqueness: { case_sensitive: false },
                        length: { within: 4..50 },
                        format: { with: /(?:[\w\d]){4,255}/ }
 
@@ -32,6 +34,9 @@ class User < ActiveRecord::Base
                        length: { within: 4..255 }
 
   validates :password_confirmation, presence: true, on: :create
+
+  validates :client_id, presence: true,
+                        numericality: { only_integer: true, greater_than: 0 }
 
   # NOTE: Used by SimpleForm to display the dropdown proerply
   def to_label

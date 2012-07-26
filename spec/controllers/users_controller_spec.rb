@@ -7,8 +7,6 @@ describe UsersController do
 
   before(:each) do
     @request.host = "#{client.account_name}.lvh.me"
-
-    ActsAsTenant.current_tenant = client
   end
 
   describe "GET 'index'" do
@@ -80,11 +78,12 @@ describe UsersController do
         email:    "",
         password: "",
         password_confirmation: "",
+        client_id: 0
       }
     end
 
     it "should restrict access to authenticated users" do
-      post :create, user: attributes_for(:user)
+      post :create, user: attr
       response.should redirect_to login_url
     end
 

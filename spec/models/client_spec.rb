@@ -68,8 +68,8 @@ describe Client do
       end
 
       it "should be unique" do
-        @client.save
-        client2 = Client.new(:account_name => @client.account_name,
+        client = create(:client)
+        client2 = Client.new(:account_name => client.account_name,
                              :contact_name => "Client Number Two",
                              :contact_email => "client2@example.com")
         client2.should_not be_valid

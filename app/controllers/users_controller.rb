@@ -5,6 +5,9 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+
+    # FIXME: Change the line below for something better
+    @client_id = Client.find_by_account_name(request.subdomain).id
   end
 
   def create

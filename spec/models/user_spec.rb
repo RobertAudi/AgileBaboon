@@ -14,15 +14,18 @@
 require 'spec_helper'
 
 describe User do
+  let(:client) { create(:client) }
   let(:attr) do
     {
-      :username => "user",
-      :email => "user@example.com",
-      :password => "password",
-      :password_confirmation => "password"
+      username: "user",
+      email: "user@example.com",
+      password: "password",
+      password_confirmation: "password",
+      client_id: client.id
     }
   end
 
+  it { should belong_to :client }
   it { should have_many :issues }
 
   describe "User specification" do
@@ -79,7 +82,7 @@ describe User do
     end
 
     context "password" do
-      it "should a password attribute" do
+      it "should have a password attribute" do
         User.new(attr).should respond_to(:password)
       end
 
@@ -101,6 +104,20 @@ describe User do
 
       it "should a maximum length of 255 characters" do
         User.new(attr.merge(:password => 'a' * 256, :password_confirmation => 'a' * 256)).should_not be_valid
+      end
+    end
+
+    context "client_id" do
+      it "should have a client_id attribute" do
+        User.new(attr).should respond_to(:client_id)
+      end
+
+      it "should require a client_id" do
+        User.new(attr.merge(client_id: nil)).should_not be_valid
+      end
+
+      it "should require a valid client_id (only numbers)" do
+        User.new(attr.merge(client_id: "fourty two")).should_not be_valid
       end
     end
   end

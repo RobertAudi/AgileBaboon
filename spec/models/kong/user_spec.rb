@@ -15,10 +15,10 @@ require 'spec_helper'
 describe Kong::User do
   let(:attr) do
     {
-      :username => "user",
-      :email => "user@example.com",
-      :password => "password",
-      :password_confirmation => "password"
+      username: "user",
+      email: "user@example.com",
+      password: "password",
+      password_confirmation: "password"
     }
   end
 

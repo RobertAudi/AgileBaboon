@@ -6,7 +6,6 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -69,5 +68,8 @@ module AgileBaboon
       g.view_specs false
       g.helper_specs false
     end
+
+    # Switch client databse on a per-request basis based on the subdomain except if the subdomain is 'kong'
+    config.middleware.use 'Apartment::Elevators::Generic', Proc.new { |request| request.subdomain.present? && request.subdomain != 'kong' && request.subdomain || nil }
   end
 end

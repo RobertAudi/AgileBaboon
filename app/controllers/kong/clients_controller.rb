@@ -14,15 +14,7 @@ class Kong::ClientsController < Kong::BaseController
   def create
     @client = Client.new(params[:client])
     if @client.save
-      begin
-        create_user_for(@client)
-      rescue
-        @client.destroy
-        flash[:error] = "Something went wrong, the client was not created."
-      else
-        flash[:success] = "Client successfully created!"
-      end
-
+      flash[:success] = "Client successfully created!"
       redirect_to kong_clients_url
     else
       render :new
@@ -56,16 +48,5 @@ class Kong::ClientsController < Kong::BaseController
       flash[:error] = "Client not deleted for some reason"
       redirect_to kong_clients_url
     end
-  end
-
-  private
-
-  # Create a user for the new client
-  def create_user_for(client)
-    ActsAsTenant.current_tenant = client
-    ::User.create!(username: "admin",
-                   email: client.contact_email,
-                   password: "admin",
-                   password_confirmation: "admin")
   end
 end

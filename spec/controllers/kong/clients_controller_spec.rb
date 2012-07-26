@@ -205,7 +205,7 @@ describe Kong::ClientsController do
     let(:client) { create(:client) }
 
     it "should restrict access to signed in users" do
-      put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
+      put :update, :id => client, :client => attributes_for(:client)
       response.should redirect_to kong_login_url
     end
 
@@ -270,12 +270,12 @@ describe Kong::ClientsController do
         end
 
         it "should redirect the user to the clients index page" do
-          put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
+          put :update, :id => client, :client => attributes_for(:client).delete_if { |k, v| k == :account_name }
           response.should redirect_to kong_clients_url
         end
 
         it "should display a confirmation message" do
-          put :update, :id => client, :client => attributes_for(:client, :account_name => client.account_name)
+          put :update, :id => client, :client => attributes_for(:client).delete_if { |k, v| k == :account_name }
           flash[:success].should =~ /Client updated successfully/
         end
       end

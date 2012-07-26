@@ -11,6 +11,12 @@
 #
 
 class Client < ActiveRecord::Base
+  after_create :create_client_database
+  after_create :create_client_admin_user
+
+  has_many :users
+  has_many :issues
+
   attr_accessible :account_name, :contact_email, :contact_name
 
   validates :account_name, presence: true,
@@ -25,4 +31,31 @@ class Client < ActiveRecord::Base
   validates :contact_email, presence: true,
                             length: { within: 8..255 },
                             format: { with: /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i }
+
+  private
+
+  # Create the client database (Apartment) for multi-tenancy
+  def create_client_database
+    begin
+      Apartment::Database.create(self.account_name)
+    rescue
+      self.destroy
+    end
+  end
+
+  # Create an admin user for the client
+  def create_client_admin_user
+    Apartment::Database.switch(self.account_name)
+
+    ::User.create!(
+      username: "admin",
+      email: "admin@example.com",
+      password: "admin",
+      password_confirmation: "admin",
+      client_id: self.id
+    )
+
+    # Switch back to the root database
+    Apartment::Database.switch
+  end
 end
