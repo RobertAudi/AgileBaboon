@@ -47,3 +47,5 @@ gem 'simple_form'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 
 gem 'apartment'
+
+gem 'rolify'
