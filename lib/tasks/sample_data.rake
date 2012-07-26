@@ -7,14 +7,17 @@ namespace :baboon do
 
     puts "Database reset"
 
-    30.times do
-      contact_name = Faker::Name.name
+    puts "Installing agile baboon..."
+    Rake::Task['baboon:install'].invoke
 
+    print "Adding sample data..."
+    %w[acme jupix google microsoft facebook oracle nokia apple twitter github hipchat codebase atlassian].each do |account_name|
       Client.create!(
-        account_name: Faker::Company.name.split(" ").first.parameterize,
-        contact_name: contact_name,
-        contact_email: Faker::Internet.email(contact_name)
+        account_name: account_name,
+        contact_name: "Robert Audi",
+        contact_email: account_name + "@example.com"
       )
     end
+    puts "Done"
   end
 end
