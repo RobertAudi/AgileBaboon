@@ -9,9 +9,7 @@ class IssuesController < ApplicationController
 
   def new
     @issue = Issue.new
-
-    # FIXME: Replace that line by something better, like current_client
-    @client_id = Client.find_by_account_name(request.subdomain).id
+    @client_id = current_client.id
   end
 
   def create
