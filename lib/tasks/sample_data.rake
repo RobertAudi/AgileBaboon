@@ -4,6 +4,7 @@ namespace :baboon do
     puts "Resetting the database"
 
     Rake::Task['db:reset'].invoke
+    Rake::Task['apartment:migrate'].invoke
 
     puts "Database reset"
 
