@@ -19,16 +19,21 @@ describe Issue do
   let(:issue_type) { create(:issue_type) }
   let(:user) { create(:user) }
   let(:client) { create(:client) }
+  let(:project) { create(:project) }
   let(:attr) do
     {
-      :title => "Finish the AgileBaboon project",
-      :description => "I should try to finish the AgileBaboon project",
-      :issue_type_id => issue_type.id
+      title: "Finish the AgileBaboon project",
+      description: "I should try to finish the AgileBaboon project",
+      issue_type_id: issue_type.id,
+      user_id: user.id,
+      client_id: client.id,
+      project_id: project.id
     }
   end
 
   it { should belong_to :issue_type }
   it { should belong_to :user }
+  it { should belong_to :project }
 
   describe "Issue specification" do
     context "title" do
@@ -37,7 +42,7 @@ describe Issue do
       end
 
       it "should require a title" do
-        Issue.new(attr.merge(:title => "")).should_not be_valid
+        Issue.new(attr.merge(title: "")).should_not be_valid
       end
     end
 
@@ -53,7 +58,7 @@ describe Issue do
       end
 
       it "should require an issue_type_id" do
-        Issue.new(attr.merge(:issue_type_id => nil)).should_not be_valid
+        Issue.new(attr.merge(issue_type_id: nil)).should_not be_valid
       end
     end
 
@@ -63,7 +68,7 @@ describe Issue do
       end
 
       it "should require a user id" do
-        Issue.new(attr.merge(:user_id => nil)).should_not be_valid
+        Issue.new(attr.merge(user_id: nil)).should_not be_valid
       end
     end
 
@@ -73,7 +78,17 @@ describe Issue do
       end
 
       it "should require a client id" do
-        Issue.new(attr.merge(:client_id => nil)).should_not be_valid
+        Issue.new(attr.merge(client_id: nil)).should_not be_valid
+      end
+    end
+
+    context "Project" do
+      it "should have a project_id attribute" do
+        Issue.new(attr).should respond_to :project_id
+      end
+
+      it "should require a project_id" do
+        Issue.new(attr.merge(project_id: nil)).should_not be_valid
       end
     end
   end

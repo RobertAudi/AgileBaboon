@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
 
   belongs_to :client
   has_many :issues
+  has_and_belongs_to_many :projects, join_table: "users_projects"
 
   attr_accessor :admin
   attr_accessible :email, :password, :password_confirmation, :username, :client_id, :admin

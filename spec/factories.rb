@@ -56,5 +56,11 @@ FactoryGirl.define do
     issue_type
     user
     client
+    project
+  end
+
+  factory :project do
+    sequence(:name)         { |n| "Project ##{n}" }
+    sequence(:description)  { |n| "This is project ##{n}" }
   end
 end

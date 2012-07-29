@@ -14,11 +14,12 @@
 #
 
 class Issue < ActiveRecord::Base
-  attr_accessible :client_id, :closed_at, :description, :issue_type_id, :title, :user_id
+  attr_accessible :client_id, :closed_at, :description, :issue_type_id, :title, :user_id, :project_id
 
   belongs_to :issue_type
   belongs_to :user
   belongs_to :client
+  belongs_to :project
 
   validates :title, presence: { message: "The title is required" }
 
@@ -31,4 +32,14 @@ class Issue < ActiveRecord::Base
                       numericality: { only_integer: true,
                                       greater_than: 0,
                                       message: "Invalid user" }
+
+  validates :client_id, presence: { message: "A client id is required" },
+                        numericality: { only_integer: true,
+                                        greater_than: 0,
+                                        message: "Invalid client id" }
+
+  validates :project_id, presence: { message: "A project id is required" },
+                         numericality: { only_integer: true,
+                                         greater_than: 0,
+                                         message: "Invalid project id" }
 end

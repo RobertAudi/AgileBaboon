@@ -28,6 +28,7 @@ describe User do
 
   it { should belong_to :client }
   it { should have_many :issues }
+  it { should have_and_belong_to_many :projects }
 
   describe "User specification" do
     context "username" do
