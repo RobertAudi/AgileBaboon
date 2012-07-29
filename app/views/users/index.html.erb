@@ -4,11 +4,19 @@
   <tr>
     <th>Username</th>
     <th>Email</th>
+    <% if current_user.has_role? :admin %>
+    <th>Actions</th>
+    <% end %>
   </tr>
   <% @users.each do |user| %>
     <tr>
       <td><%= user.username %></td>
       <td><%= user.email %></td>
+      <% if current_user.has_role? :admin %>
+      <td>
+        <%= link_to "<i class=\"icon-pencil\"></i>".html_safe, edit_user_path(user) %>
+      </td>
+      <% end %>
     </tr>
   <% end %>
 </table>

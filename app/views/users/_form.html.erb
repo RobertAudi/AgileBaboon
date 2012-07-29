@@ -2,5 +2,6 @@
 <%= f.input :email %>
 <%= f.input :password %>
 <%= f.input :password_confirmation %>
-<%= f.input :client_id, as: :hidden, input_html: { value: @client_id } %>
+<%= f.input :admin, as: :boolean %>
+<%= f.input :client_id, as: :hidden, input_html: { value: @client_id || @user.client_id } %>
 <%= f.button :submit %>

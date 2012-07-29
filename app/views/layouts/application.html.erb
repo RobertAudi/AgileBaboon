@@ -69,6 +69,24 @@
     <%# Main content %>
     <div id="contentwrapper">
       <div class="main_content">
+        <%# Flash messages %>
+        <% if flash[:success].present? %>
+          <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">×</a>
+            <%= "<strong>Success!</strong> ".html_safe + flash[:success] %>
+          </div>
+        <% elsif flash[:notice].present? %>
+          <div class="alert">
+            <a class="close" data-dismiss="alert">×</a>
+            <%= "<strong>Notice:</strong> ".html_safe + flash[:notice] %>
+          </div>
+        <% elsif flash[:error].present? %>
+          <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">×</a>
+            <%= "<strong>Error:</strong> ".html_safe + flash[:error] %>
+          </div>
+        <% end %>
+
         <%= yield %>
 
         <%# Rails Footnotes %>
@@ -113,8 +131,12 @@
                   <div class="accordion-body collapse" id="collapseTwo">
                     <div class="accordion-inner">
                       <ul class="nav nav-list">
-                        <li><%= link_to "Manage users", users_path %></li>
-                        <li><%= link_to "Create user", new_user_path %></li>
+                        <% if current_user.has_role? :admin %>
+                          <li><%= link_to "Manage users", users_path %></li>
+                          <li><%= link_to "Create user", new_user_path %></li>
+                        <% else %>
+                          <li><%= link_to "List users", users_path %></li>
+                        <% end %>
                       </ul>
                     </div>
                   </div>

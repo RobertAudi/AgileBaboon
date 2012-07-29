@@ -21,7 +21,8 @@ describe User do
       email: "user@example.com",
       password: "password",
       password_confirmation: "password",
-      client_id: client.id
+      client_id: client.id,
+      admin: "0"
     }
   end
 
@@ -118,6 +119,20 @@ describe User do
 
       it "should require a valid client_id (only numbers)" do
         User.new(attr.merge(client_id: "fourty two")).should_not be_valid
+      end
+    end
+
+    context "admin" do
+      it "should have an admin attribute" do
+        User.new(attr).should respond_to(:admin)
+      end
+
+      it "should require a value for admin" do
+        User.new(attr.merge(admin: nil)).should_not be_valid
+      end
+
+      it "should require a valid value for admin" do
+        User.new(attr.merge(admin: "zero")).should_not be_valid
       end
     end
   end

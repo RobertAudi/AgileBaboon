@@ -38,6 +38,8 @@ class Client < ActiveRecord::Base
   def create_client_database
     begin
       Apartment::Database.create(self.account_name)
+    rescue Apartment::SchemaExists
+      return
     rescue
       self.destroy
     end
@@ -47,13 +49,17 @@ class Client < ActiveRecord::Base
   def create_client_admin_user
     Apartment::Database.switch(self.account_name)
 
-    ::User.create!(
+    admin = ::User.create!(
       username: "admin",
       email: "admin@example.com",
       password: "admin",
       password_confirmation: "admin",
+      admin: "1",
       client_id: self.id
     )
+
+    # Add the superadmin roles to the admin
+    admin.add_role :superadmin
 
     # Switch back to the root database
     Apartment::Database.switch

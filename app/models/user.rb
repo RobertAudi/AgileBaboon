@@ -18,7 +18,8 @@ class User < ActiveRecord::Base
   belongs_to :client
   has_many :issues
 
-  attr_accessible :email, :password, :password_confirmation, :username, :client_id
+  attr_accessor :admin
+  attr_accessible :email, :password, :password_confirmation, :username, :client_id, :admin
 
   validates :username, presence: true,
                        uniqueness: { case_sensitive: false },
@@ -38,6 +39,8 @@ class User < ActiveRecord::Base
 
   validates :client_id, presence: true,
                         numericality: { only_integer: true, greater_than: 0 }
+
+  validates :admin, inclusion: { in: ["0", "1"] }
 
   # NOTE: Used by SimpleForm to display the dropdown proerply
   def to_label

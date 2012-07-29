@@ -18,6 +18,29 @@ FactoryGirl.define do
     sequence(:email)      { |n| "user#{n}@example.com" }
     password              "password"
     password_confirmation { |u| u.password }
+    admin                 "0"
+
+    # I need to hardcode the client id here due to FactoryGirl sucking ass
+    client_id             1
+  end
+
+  factory :admin, class: User do
+    sequence(:username)   { |n| "admin#{n}" }
+    sequence(:email)      { |n| "admin#{n}@example.com" }
+    password              "admin"
+    password_confirmation { |u| u.password }
+    admin                 "1"
+
+    # I need to hardcode the client id here due to FactoryGirl sucking ass
+    client_id             1
+  end
+
+  factory :superadmin, class: User do
+    sequence(:username)   { |n| "admin#{n}" }
+    sequence(:email)      { |n| "admin#{n}@example.com" }
+    password              "admin"
+    password_confirmation { |u| u.password }
+    admin                 "1"
 
     # I need to hardcode the client id here due to FactoryGirl sucking ass
     client_id             1

@@ -18,7 +18,7 @@ describe Kong::User do
       username: "user",
       email: "user@example.com",
       password: "password",
-      password_confirmation: "password"
+      password_confirmation: "password",
     }
   end
 
@@ -76,7 +76,7 @@ describe Kong::User do
     end
 
     context "password" do
-      it "should a password attribute" do
+      it "should have a password attribute" do
         Kong::User.new(attr).should respond_to(:password)
       end
 

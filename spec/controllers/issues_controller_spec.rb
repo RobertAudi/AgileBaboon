@@ -3,9 +3,8 @@ require 'spec_helper'
 describe IssuesController do
   render_views
 
-  let(:client) { create(:client) }
-
   before(:each) do
+    client = create(:client)
     @request.host = "#{client.account_name}.lvh.me"
   end
 
