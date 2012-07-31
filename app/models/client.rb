@@ -58,7 +58,8 @@ class Client < ActiveRecord::Base
       client_id: self.id
     )
 
-    # Add the superadmin roles to the admin
+    # Add the admin and superadmin roles to the admin
+    admin.add_role :admin
     admin.add_role :superadmin
 
     # Switch back to the root database
