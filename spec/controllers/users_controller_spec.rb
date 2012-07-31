@@ -4,7 +4,12 @@ describe UsersController do
   render_views
 
   before(:each) do
-    client = create(:client)
+    begin
+      client = create(:client)
+    rescue
+      client = Client.create!(attributes_for(:client))
+    end
+
     @request.host = "#{client.account_name}.lvh.me"
   end
 
