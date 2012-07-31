@@ -1,6 +1,6 @@
 <section id="issue">
   <h1><%= @issue.title %></h1>
-  <small><%= link_to "Edit", edit_issue_path(@issue) %></small>
+  <small><%= link_to "Edit", edit_project_issue_path(params[:project_id], @issue) %></small>
   <% unless @issue.description.blank? %>
     <section id="description">
     <%= @issue.description %>

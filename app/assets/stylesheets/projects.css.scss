@@ -1,0 +1,9 @@
+// Place all the styles related to the Projects controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+// This is the "Projects" label on the new user form
+div.span6 > div.check_boxes > label.control-label
+{
+  font-weight: bold;
+}

@@ -1,7 +1,19 @@
-<%= f.input :username %>
-<%= f.input :email %>
-<%= f.input :password %>
-<%= f.input :password_confirmation %>
-<%= f.input :admin, as: :boolean %>
+<div class="row-fluid">
+  <div class="span6">
+    <%= f.input :username, input_html: { class: "span12" } %>
+    <%= f.input :email, input_html: { class: "span12" } %>
+    <%= f.input :password, input_html: { class: "span12" } %>
+    <%= f.input :password_confirmation, input_html: { class: "span12" } %>
+    <%= f.input :admin, as: :boolean, input_html: { checked: @user.has_role?(:admin) } %>
+  </div>
+  <div class="span6">
+    <%= f.association :projects, as: :check_boxes, checked: @user.projects.map { |p| p.id } %>
+  </div>
+</div>
 <%= f.input :client_id, as: :hidden, input_html: { value: @client_id || @user.client_id } %>
-<%= f.button :submit %>
+
+<div class="row-fluid">
+  <div class="span6">
+    <%= f.button :submit %>
+  </div>
+</div>

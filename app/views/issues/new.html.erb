@@ -1,6 +1,6 @@
 <div class="row-fluid">
   <div class="span12">
-    <%= simple_form_for @issue do |f| %>
+    <%= simple_form_for @issue, url: project_issues_path(params[:project_id]) do |f| %>
       <%= render 'form', f: f %>
     <% end %>
   </div>

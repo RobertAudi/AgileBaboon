@@ -16,7 +16,7 @@ class IssuesController < ApplicationController
     @issue = Issue.new(params[:issue])
     if @issue.save
       flash[:success] = "Issue successfully created!"
-      redirect_to issues_url
+      redirect_to project_issues_url(params[:project_id])
     else
       render :new
     end
@@ -24,15 +24,16 @@ class IssuesController < ApplicationController
 
   def edit
     @issue = Issue.find(params[:id])
+    @client_id = current_client.id
   end
 
   def update
     @issue = Issue.find(params[:id])
     if @issue.update_attributes(params[:issue])
       flash[:success] = "Issue successfully updated!"
-      redirect_to issues_url
+      redirect_to project_issues_url(params[:project_id])
     else
-      render 'edit'
+      render :edit
     end
   end
 end

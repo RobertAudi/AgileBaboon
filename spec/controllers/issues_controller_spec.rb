@@ -15,14 +15,14 @@ describe IssuesController do
 
   describe "GET 'index'" do
     it "should restrict access to signed in users" do
-      get :index
+      get :index, project_id: create(:project)
       response.should redirect_to login_url
     end
 
     context "for authenticated users" do
       before(:each) do
         controller.log_in(create(:user))
-        get :index
+        get :index, project_id: create(:project)
       end
 
       it "returns http success" do
@@ -42,11 +42,12 @@ describe IssuesController do
       end
 
       it "should paginate the issues table" do
+        issue = create(:issue)
         42.times do
           create(:issue)
         end
 
-        get :index
+        get :index, project_id: issue.project_id
 
         response.body.should have_selector('.pagination')
         response.body.should have_selector('.pagination .page')
@@ -58,14 +59,14 @@ describe IssuesController do
     let(:issue) { create(:issue) }
 
     it "should restrict access to signed in users" do
-      get :show, id: issue
+      get :show, project_id: issue.project_id, id: issue
       response.should redirect_to login_url
     end
 
     context "for authenticated users" do
       before(:each) do
         controller.log_in(create(:user))
-        get :show, id: issue
+        get :show, project_id: issue.project_id, id: issue
       end
 
       it "returns http success" do
@@ -81,14 +82,14 @@ describe IssuesController do
   describe "GET 'new'" do
 
     it "should restrict access to signed in users" do
-      get :new
+      get :new, project_id: create(:project)
       response.should redirect_to login_url
     end
 
     context "for authenticated users" do
       before(:each) do
         controller.log_in(create(:user))
-        get :new
+        get :new, project_id: create(:project)
       end
 
       it "returns http success" do
@@ -107,12 +108,13 @@ describe IssuesController do
         title: "",
         description: "",
         issue_type_id: 0,
-        user_id: 0
+        user_id: 0,
+        project_id: 1
       }
     end
 
     it "should restrict access to signed in users" do
-      post :create, issue: attr
+      post :create, project_id: attr[:project_id], issue: attr
       response.should redirect_to login_url
     end
 
@@ -122,12 +124,12 @@ describe IssuesController do
       end
 
       it "returns http success" do
-        post :create, issue: attr
+        post :create, project_id: attr[:project_id], issue: attr
         response.should be_success
       end
 
       it "should create a new issue instance and put it in an instance variable" do
-        post :create, issue: attr
+        post :create, project_id: attr[:project_id], issue: attr
         issue = assigns(:issue)
         issue.should be_an_instance_of Issue
         issue.title.should == attr[:title]
@@ -139,7 +141,7 @@ describe IssuesController do
       context "with invalid attributes" do
         context "templates" do
           before(:each) do
-            post :create, issue: attr
+            post :create, project_id: attr[:project_id], issue: attr
           end
 
           it "should render the 'new' page" do
@@ -149,7 +151,7 @@ describe IssuesController do
 
         it "should not create a new issue" do
           expect {
-            post :create, issue: attr
+            post :create, project_id: attr[:project_id], issue: attr
           }.to_not change(Issue, :count)
         end
       end
@@ -159,17 +161,17 @@ describe IssuesController do
 
         it "should create a new issue" do
           expect {
-            post :create, issue: attr
+            post :create, project_id: attr[:project_id], issue: attr
           }.to change(Issue, :count).by(1)
         end
 
         it "should redirect the user to the issues index page" do
-          post :create, issue: attr
-          response.should redirect_to(issues_url)
+          post :create, project_id: attr[:project_id], issue: attr
+          response.should redirect_to(project_issues_url(attr[:project_id]))
         end
 
         it "should display a confirmation message" do
-          post :create, issue: attr
+          post :create, project_id: attr[:project_id], issue: attr
           flash[:success].should =~ /Issue successfully created/
         end
       end
@@ -180,14 +182,14 @@ describe IssuesController do
     let(:issue) { create(:issue) }
 
     it "should restrict access to signed in users" do
-      get :edit, id: issue
-      response.should redirect_to kong_login_url
+      get :edit, project_id: issue.project_id, id: issue
+      response.should redirect_to login_url
     end
 
     context "for authenticated user" do
       before(:each) do
         controller.log_in(create(:user))
-        get :edit, id: issue
+        get :edit, project_id: issue.project_id, id: issue
       end
 
       it "returns http success" do
@@ -204,7 +206,7 @@ describe IssuesController do
     let(:issue) { create(:issue) }
 
     it "should restrict access to signed in users" do
-      put :update, id: issue, issue: attributes_for(:issue)
+      put :update, project_id: issue.project_id, id: issue, issue: attributes_for(:issue)
       response.should redirect_to login_url
     end
 
@@ -214,7 +216,7 @@ describe IssuesController do
       end
 
       it "should fetch the correct issue" do
-        put :update, id: issue, issue: attributes_for(:issue)
+        put :update, project_id: issue.project_id, id: issue, issue: attributes_for(:issue)
         assigns(:issue).should == issue
       end
 
@@ -223,7 +225,7 @@ describe IssuesController do
 
         context "templates" do
           before(:each) do
-            put :update, id: issue, issue: attr
+            put :update, project_id: issue.project_id, id: issue, issue: attr
           end
 
           it "should render the 'edit' template" do
@@ -232,12 +234,12 @@ describe IssuesController do
         end
 
         it "returns http success" do
-          put :update, id: issue, issue: attr
+          put :update, project_id: issue.project_id, id: issue, issue: attr
           response.should be_success
         end
 
         it "should not update the issue" do
-          put :update, id: issue, issue: attr
+          put :update, project_id: issue.project_id, id: issue, issue: attr
           issue.reload
           issue.title.should_not == "This is issue #42"
           issue.description.should_not be_nil
@@ -248,22 +250,21 @@ describe IssuesController do
         let(:attr) { build(:issue, title: "This is issue #42").attributes.symbolize_keys.delete_if { |k, v| v.nil? || k == :client_id } }
 
         it "should change the issue's attributes" do
-          put :update, id: issue, issue: attr
+          put :update, project_id: issue.project_id, id: issue, issue: attr
           issue.reload
           issue.title.should == "This is issue #42"
         end
 
         it "should redirect the user to the issue index page" do
-          put :update, id: issue, issue: attr
-          response.should redirect_to(issues_url)
+          put :update, project_id: issue.project_id, id: issue, issue: attr
+          response.should redirect_to(project_issues_url(project_id: issue.project_id))
         end
 
         it "should display a confirmation message" do
-          put :update, id: issue, issue: attr
+          put :update, project_id: issue.project_id, id: issue, issue: attr
           flash[:success].should =~ /Issue successfully updated/
         end
       end
     end
   end
-
 end

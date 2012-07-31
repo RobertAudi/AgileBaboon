@@ -16,6 +16,9 @@ class UsersController < ApplicationController
     if @user.save
       @user.add_role :admin if params[:user][:admin] == "1"
 
+      # Set the Projects the user is associated with
+      @user.projects = params[:user][:project_ids].delete_if { |id| id.empty? }.map { |id| Project.find(id) }
+
       flash[:success] = "User created successfully"
       redirect_to users_url
     else
@@ -30,6 +33,15 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
+      if params[:user][:admin] == "1"
+        @user.add_role :admin
+      elsif params[:user][:admin] == "0"
+        @user.remove_role :admin
+      end
+
+      # Set the Projects the user is associated with
+      @user.projects = params[:user][:project_ids].delete_if { |id| id.empty? }.map { |id| Project.find(id) }
+
       flash[:success] = "User updated successfully"
       redirect_to users_url
     else

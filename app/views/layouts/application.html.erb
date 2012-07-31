@@ -61,6 +61,24 @@
             <a data-target=".nav-collapse" data-toggle="collapse" class="btn_menu">
               <span class="icon-align-justify icon-white"></span>
             </a>
+            <nav>
+              <div class="nav-collapse">
+                <ul class="nav">
+                  <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-th icon-white"></i> Projects <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><%= link_to "Create project", new_project_path %></li>
+                      <% if projects.any? %>
+                      <li class="divider"></li>
+                      <% end %>
+                      <% projects.each do |project| %>
+                      <li><%= link_to project.name, project_path(project) %></li>
+                      <% end %>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </nav>
           </div>
         </div>
       </div>
@@ -106,7 +124,7 @@
                 <input autocomplete="off" name="query" class="search_query input-medium" size="16" type="text" placeholder="Don't click that button!" /><button type="submit" class="btn"><i class="icon-search"></i></button>
               </form>
               <div id="side_accordion" class="accordion">
-
+                <% if params[:controller] == "issues" %>
                 <div class="accordion-group">
                   <div class="accordion-heading">
                     <a href="#collapseOne" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
@@ -116,12 +134,13 @@
                   <div class="accordion-body collapse" id="collapseOne">
                     <div class="accordion-inner">
                       <ul class="nav nav-list">
-                        <li><%= link_to "Manage issues", issues_path %></li>
-                        <li><%= link_to "Create issue", new_issue_path %></li>
+                        <li><%= link_to "Manage issues", project_issues_path(params[:project_id]) %></li>
+                        <li><%= link_to "Create issue", new_project_issue_path(params[:project_id]) %></li>
                       </ul>
                     </div>
                   </div>
                 </div>
+                <% end %>
                 <div class="accordion-group">
                   <div class="accordion-heading">
                     <a href="#collapseTwo" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">

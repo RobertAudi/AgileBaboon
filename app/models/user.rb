@@ -12,15 +12,15 @@
 #
 
 class User < ActiveRecord::Base
-	rolify
+  rolify
   has_secure_password
 
   belongs_to :client
   has_many :issues
   has_and_belongs_to_many :projects, join_table: "users_projects"
 
-  attr_accessor :admin
-  attr_accessible :email, :password, :password_confirmation, :username, :client_id, :admin
+  attr_accessor :admin, :project_ids
+  attr_accessible :email, :password, :password_confirmation, :username, :client_id, :admin, :project_ids
 
   validates :username, presence: true,
                        uniqueness: { case_sensitive: false },

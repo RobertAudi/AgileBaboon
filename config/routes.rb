@@ -29,7 +29,14 @@ AgileBaboon::Application.routes.draw do
   # Users
   resources :users, except: [:show]
 
-  resources :issues
+  # Projects
+  resources :projects, except: [:index, :destroy] do
+    # Projects' issues
+    resources :issues
+
+    # Projects' users
+    resources :users, except: [:show]
+  end
 
   get "/dashboard" => "dashboard#index", as: "dashboard"
 
