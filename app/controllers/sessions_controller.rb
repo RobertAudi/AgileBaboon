@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
       flash[:success] = "Logged in successfully"
       redirect_to dashboard_url
     else
-      flash[:error] = "Login/Password combination incorrect"
+      flash.now[:error] = "Login/Password combination incorrect"
       render :new
     end
   end

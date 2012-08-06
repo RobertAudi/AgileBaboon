@@ -1,14 +1,99 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AgileBaboon</title>
-  <%= stylesheet_link_tag    "sessions", media: "all" %>
-  <%= javascript_include_tag "sessions" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<%= yield %>
+    <title>AgileBaboon</title>
 
-</body>
+    <%# Twitter Bootstrap %>
+    <%= stylesheet_link_tag "gebo_admin_1.2/bootstrap/css/bootstrap.min.css", media: "all" %>
+    <%= stylesheet_link_tag "gebo_admin_1.2/bootstrap/css/bootstrap-responsive.min.css", media: "all" %>
+
+    <%# Gebo dark theme %>
+    <%= stylesheet_link_tag "gebo_admin_1.2/css/eastern_blue.css", media: "all" %>
+
+    <%# Tooltips %>
+    <%= stylesheet_link_tag "gebo_admin_1.2/lib/qtip2/jquery.qtip.min.css", media: "all" %>
+
+    <%# Main gebo theme styles %>
+    <%= stylesheet_link_tag "gebo_admin_1.2/css/style.css", media: "all" %>
+
+    <%# Special font shipped with the gebo theme %>
+    <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=PT+Sans", media: "all" %>
+
+    <%# Favicon %>
+    <%= favicon_link_tag "gebo_admin_1.2/favicon.ico" %>
+
+    <%= stylesheet_link_tag    "sessions", media: "all" %>
+
+    <!--[if lte IE 8]>
+    <%= stylesheet_link_tag "gebo_admin_1.2/css/ie.css", media: "all" %>
+    <%= javascript_include_tag "gebo_admin_1.2/js/ie/html5.js" %>
+    <%= javascript_include_tag "gebo_admin_1.2/js/ie/respond.min.js" %>
+    <![endif]-->
+
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="login_page">
+    <div class="login_box">
+      <%= yield %>
+    </div>
+
+    <%# jQuery and main js script %>
+    <%= javascript_include_tag "sessions" %>
+
+    <%# hidden elements width/height %>
+    <%= javascript_include_tag "gebo_admin_1.2/js/jquery.actual.min.js" %>
+    <%= javascript_include_tag "gebo_admin_1.2/lib/validation/jquery.validate.min.js" %>
+    <%# main bootstrap js %>
+    <%= javascript_include_tag "gebo_admin_1.2/bootstrap/js/bootstrap.min.js" %>
+
+    <script>
+      $(document).ready(function(){
+
+        //* boxes animation
+        form_wrapper = $('.login_box');
+        $('.linkform a,.link_reg a').on('click',function(e){
+          var target  = $(this).attr('href'),
+          target_height = $(target).actual('height');
+          $(form_wrapper).css({
+            'height'    : form_wrapper.height()
+          });
+          $(form_wrapper.find('form:visible')).fadeOut(400,function(){
+            form_wrapper.stop().animate({
+              height  : target_height
+              },500,function(){
+              $(target).fadeIn(400);
+              $('.links_btm .linkform').toggle();
+              $(form_wrapper).css({
+                'height'    : ''
+              });
+            });
+          });
+          e.preventDefault();
+        });
+
+        //* validation
+        $('#login_form').validate({
+          onkeyup: false,
+          errorClass: 'error',
+          validClass: 'valid',
+          rules: {
+            login:    { required: true },
+            password: { required: true }
+          },
+          highlight: function(element) {
+            $(element).closest('div').addClass("f_error");
+          },
+          unhighlight: function(element) {
+            $(element).closest('div').removeClass("f_error");
+          },
+          errorPlacement: function(error, element) {
+            $(element).closest('div').append(error);
+          }
+        });
+      });
+    </script>
+  </body>
 </html>

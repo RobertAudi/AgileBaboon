@@ -1,15 +1,24 @@
-<%= form_tag sessions_path do %>
-  <p>
-    <%= label_tag :login %>
-    <%= text_field_tag :login %>
-  </p>
+<%= form_tag sessions_path, id: "login_form" do %>
+  <div class="top_b">Log in</div>
+  <% if flash[:error].present? %>
+    <div class="alert alert-login">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
 
-  <p>
-    <%= label_tag :password %>
-    <%= password_field_tag :password %>
-  </p>
-
-  <p>
-    <%= submit_tag "Login" %>
-  </p>
+  <div class="cnt_b">
+    <div class="formRow">
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span><%= text_field_tag :login, nil, placeholder: "Login" %>
+      </div>
+    </div>
+    <div class="formRow">
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-lock"></i></span><%= password_field_tag :password, nil, placeholder: "Password" %>
+      </div>
+    </div>
+  </div>
+  <div class="btm_b clearfix">
+    <%= button_tag "Log in", class: "btn btn-inverse pull-right" %>
+  </div>
 <% end %>
